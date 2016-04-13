@@ -5,15 +5,25 @@
   
   <title>人生，是一场又一场美好事物的追逐</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
+  <meta name="description" content="Package Control MessagesMarkdownEditingMarkdownEditing  Markdown plugin for Sublime Text. Provides a decent Markdown color scheme (light and dark) with more robust syntax highlighting and useful Markd">
+<meta property="og:type" content="article">
 <meta property="og:title" content="人生，是一场又一场美好事物的追逐">
-<meta property="og:url" content="http://felbry.github.io/index.html">
+<meta property="og:url" content="http://felbry.github.io/2016/04/11/Markdown语法参考/index.html">
 <meta property="og:site_name" content="人生，是一场又一场美好事物的追逐">
-<meta property="og:description">
+<meta property="og:description" content="Package Control MessagesMarkdownEditingMarkdownEditing  Markdown plugin for Sublime Text. Provides a decent Markdown color scheme (light and dark) with more robust syntax highlighting and useful Markd">
+<meta property="og:image" content="https://raw.github.com/SublimeText-Markdown/MarkdownEditing/master/screenshots/light.png">
+<meta property="og:image" content="https://raw.github.com/SublimeText-Markdown/MarkdownEditing/master/screenshots/underscore-in-words.png">
+<meta property="og:image" content="https://raw.github.com/SublimeText-Markdown/MarkdownEditing/master/screenshots/fenced-code-block.png">
+<meta property="og:image" content="https://raw.github.com/SublimeText-Markdown/MarkdownEditing/master/screenshots/keyboard-shortcut.png">
+<meta property="og:image" content="https://raw.github.com/SublimeText-Markdown/MarkdownEditing/master/screenshots/strikethrough.png">
+<meta property="og:image" content="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif">
+<meta property="og:image" content="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif">
+<meta property="og:image" content="http://maliayas.com/business/donation/badge.php?project=markdown_editing">
+<meta property="og:updated_time" content="2016-04-11T07:18:23.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="人生，是一场又一场美好事物的追逐">
-<meta name="twitter:description">
+<meta name="twitter:description" content="Package Control MessagesMarkdownEditingMarkdownEditing  Markdown plugin for Sublime Text. Provides a decent Markdown color scheme (light and dark) with more robust syntax highlighting and useful Markd">
+<meta name="twitter:image" content="https://raw.github.com/SublimeText-Markdown/MarkdownEditing/master/screenshots/light.png">
   
     <link rel="alternative" href="/atom.xml" title="人生，是一场又一场美好事物的追逐" type="application/atom+xml">
   
@@ -59,69 +69,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-struts2的数据校验" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/13/struts2的数据校验/" class="article-date">
-  <time datetime="2016-04-13T10:03:36.000Z" itemprop="datePublished">2016-04-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/13/struts2的数据校验/">struts2的数据校验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>使用validate()方法校验</li>
-<li>使用框架校验</li>
-</ul>
-<h2 id="使用validate-方法校验"><a href="#使用validate-方法校验" class="headerlink" title="使用validate()方法校验"></a>使用validate()方法校验</h2><p><strong>1.该方法写在action中，在execute方法前执行</strong><br><strong>2.通过判断语句，执行addFieldError方法</strong></p>
-<pre><code>addFieldError(&quot;arg&quot;,&quot;msg&quot;);
-</code></pre><h2 id="使用框架校验"><a href="#使用框架校验" class="headerlink" title="使用框架校验"></a>使用框架校验</h2><p><strong>为Action单独建立一个配置文件(.xml)，保存在Action类的相同目录下</strong></p>
-<pre><code>命名规则：Action类名-validation.xml
-</code></pre><h4 id="xml文件的DOCTYPE声明"><a href="#xml文件的DOCTYPE声明" class="headerlink" title="xml文件的DOCTYPE声明"></a>xml文件的DOCTYPE声明</h4><p><strong>有些旧的书籍或者文档没有及时更新，其声明如下</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE validators PUBLIC </span><br><span class="line">        "-//OpenSymphony Group//XWork Validator 1.0.2//EN"</span><br><span class="line">        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd"&gt;</span></span><br></pre></td></tr></table></figure></p>
-<pre><code>这样会导致文件找不到的错误。
-</code></pre><ul>
-<li>解决方法1：查看最新文档</li>
-</ul>
-<p>本地文档：</p>
-<pre><code>file:///E:/struts-2.3.24.1/docs/docs/validation.html
-</code></pre><p>声明如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE validators PUBLIC </span><br><span class="line">        "-//Apache Struts//XWork Validator 1.0.2//EN"</span><br><span class="line">        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd"&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>里面也有validator的各种详细使用说明</strong></p>
-<ul>
-<li>解决方法2：在myeclipse中查看jar包中的源码</li>
-</ul>
-<p><strong>Step 1</strong><br>在<strong>项目工程</strong>上点击鼠标右键，选择Properties，在弹出的对话框中选择 Java Build Path -&gt; Libraries -&gt; 选择需要添加源代码的包下边的Source attachment，在弹出的对话框中指定<strong>源码文件位置</strong></p>
-<p><strong>Step 2</strong><br>确认之后即可在项目里面找到相关的Library</p>
-<div align="center"><br>    <img src="../_imgs/1.png"><br></div>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://felbry.github.io/2016/04/13/struts2的数据校验/" data-id="cimyqq8qx0000dci62quh6luv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/struts2/">struts2</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Markdown语法参考" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Markdown语法参考" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/04/11/Markdown语法参考/" class="article-date">
   <time datetime="2016-04-11T07:18:22.869Z" itemprop="datePublished">2016-04-11</time>
@@ -365,227 +313,29 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-关于IP地址与子网划分小记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/07/关于IP地址与子网划分小记/" class="article-date">
-  <time datetime="2016-04-07T13:37:17.000Z" itemprop="datePublished">2016-04-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2016/04/13/struts2的数据校验/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
+          struts2的数据校验
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/07/关于IP地址与子网划分小记/">关于IP地址与子网划分小记</a>
-    </h1>
   
+    <a href="/2016/04/07/关于IP地址与子网划分小记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于IP地址与子网划分小记</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><h2 id="IP地址及表示方法"><a href="#IP地址及表示方法" class="headerlink" title="IP地址及表示方法"></a>IP地址及表示方法</h2><strong>IP地址采用分层结构，由网络号和主机号两部分组成</strong></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">网络号</td>
-<td style="text-align:center">主机号</td>
-</tr>
-</tbody>
-</table>
-<p><strong>网络号标识一个网络，主机号标识这个网络的某台主机</strong></p>
-<ul>
-<li><h2 id="IP地址分类"><a href="#IP地址分类" class="headerlink" title="IP地址分类"></a>IP地址分类</h2><p><strong>分为A到E五类，D类是多址广播地址，E类是实验性地址</strong><br><strong>网络号字段：</strong>A,B,C类地址的网络地址字段分别为1,2,3字节长，在网络地址字段的最前面有1~3位用于标识IP地址的类别。数值分别规定为0、10、110<br><strong>主机号字段：</strong>A,B,C类地址的主机号字段分别为3,2,1字节长</p>
-</li>
-<li><h2 id="IP地址表示方法"><a href="#IP地址表示方法" class="headerlink" title="IP地址表示方法"></a>IP地址表示方法</h2><p><strong>二进制格式和十进制格式两种</strong><br><strong>二进制转十进制：</strong>abcd.efg(2)=d*(2的0次方)+c*(2的1次方)+b*(2的3次方)+a*(2的4次方)+e*(2的-1次方)+f*(2的-2次方)+g*(2的-3次方)<br><strong>十进制转二进制：</strong>除2取余，逆序排列，直到商为0时为止。</p>
-</li>
-<li><h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2></li>
-</ul>
-<h3 id="划分子网"><a href="#划分子网" class="headerlink" title="划分子网"></a>划分子网</h3><p><strong>方法：</strong>从网络的主机号借用若干位作为子网号，主机号相应减少同样位数。因此之前的两级IP地址可划分为三级IP地址</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">网络号</td>
-<td style="text-align:center">子网号</td>
-<td style="text-align:center">主机号</td>
-</tr>
-</tbody>
-</table>
-<h3 id="子网掩码的作用"><a href="#子网掩码的作用" class="headerlink" title="子网掩码的作用"></a>子网掩码的作用</h3><p><strong>简单来说子网掩码的作用就是用来判断子网中的网络地址</strong><br><strong>举例：</strong>一个IP为145.13.3.10的地址，其两级IP地址的子网掩码为255.255.0.0，即处于一个145.13.0.0的网络里，是一个普通的B类网络。但进入到这个网络后（即到了路由器R），就看到了还有许多网络（即划分了子网后的许多网络），如果这个三级IP地址的子网掩码为255.255.255.0，那么其网络地址就为145.13.3.0</p>
-<p><strong>使用子网掩码的好处就是，不管网络有没有划分子网，只要把子网掩码和IP地址进行逐位的相“与”运算，就立即得出网络地址来</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A类地址的默认子网掩码是255.0.0.0</span><br><span class="line">B类地址的默认子网掩码是255.255.0.0</span><br><span class="line">C类地址的默认子网掩码是255.255.255.0</span><br></pre></td></tr></table></figure>
-<ul>
-<li><h2 id="无分类域间路由选择（CIDR）"><a href="#无分类域间路由选择（CIDR）" class="headerlink" title="无分类域间路由选择（CIDR）"></a>无分类域间路由选择（CIDR）</h2></li>
-</ul>
-<h3 id="IP地址记法"><a href="#IP地址记法" class="headerlink" title="IP地址记法"></a>IP地址记法</h3><table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">网络前缀</td>
-<td style="text-align:center">主机号</td>
-</tr>
-</tbody>
-</table>
-<h3 id="斜线记法（CIDR记法）"><a href="#斜线记法（CIDR记法）" class="headerlink" title="斜线记法（CIDR记法）"></a>斜线记法（CIDR记法）</h3><blockquote>
-<p>128.14.35.7/20 = <strong>10000000 00001110 0010</strong>0011 00000111</p>
-</blockquote>
-<pre><code>CIDR把网络前缀都相同的连续的IP地址组成一个“CIDR地址块”
-知道任一地址，即可知道这个地址的最小地址和最大地址
-</code></pre><p><strong>由128.14.35.7/20可得出</strong></p>
-<blockquote>
-<p>最小地址 128.14.32.0 = <strong>10000000 00001110 0010</strong>0000 00000000<br>最大地址 128.14.47.255 = <strong>10000000 00001110 0010</strong>1111 11111111</p>
-</blockquote>
-<h3 id="地址掩码"><a href="#地址掩码" class="headerlink" title="地址掩码"></a>地址掩码</h3><p><strong>CIDR使用32位的地址掩码（子网掩码）</strong><br>1的个数就是网络前缀的长度，知道网络前缀之后很容易得出子网掩码</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://felbry.github.io/2016/04/07/关于IP地址与子网划分小记/" data-id="cimyqq8rc0004dci6gq73tqp5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
-
-  
-    <article id="post-Struts2的拦截器小记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/06/Struts2的拦截器小记/" class="article-date">
-  <time datetime="2016-04-06T13:40:14.000Z" itemprop="datePublished">2016-04-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/06/Struts2的拦截器小记/">Struts2的拦截器小记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>针对一道作业题对“拦截器实现”做点笔记</strong></p>
-<h2 id="题目如下"><a href="#题目如下" class="headerlink" title="题目如下"></a>题目如下</h2><blockquote>
-<p>建立一个拦截器，用户名后缀为“r”的才允许访问“/sec”命名空间下的action。</p>
-</blockquote>
-<h3 id="思路大概如下"><a href="#思路大概如下" class="headerlink" title="思路大概如下"></a>思路大概如下</h3><p>之前是通过form表单直接将数据提交给action，而拦截器无非就是在中间插了一脚。那么将对后缀“r”的判断丢给拦截器处理就可以了。</p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
-<li>在struts.xml中定义一个包，包的命名空间设为“/sec”；</li>
-<li>包中定义一个name为“test”的拦截器（指定类路径），然后将其与defaultStack拦截器合并成一个拦截器栈；</li>
-<li>最后将这个拦截器栈设为默认拦截器。</li>
-</ol>
-<p><strong>struts.xml结构如下</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;package name=<span class="string">"default"</span> extends=<span class="string">"struts-default"</span> namespace=<span class="string">"/sec"</span>&gt;</span><br><span class="line">	&lt;interceptors&gt;</span><br><span class="line">	    	&lt;interceptor name=<span class="string">"test"</span> class=<span class="string">"intercept.SimpleInterceptor"</span>&gt;</span><br><span class="line">	    	&lt;/interceptor&gt;</span><br><span class="line">	    	&lt;interceptor-stack name=<span class="string">"mystack"</span>&gt;</span><br><span class="line">	    		&lt;interceptor-ref name=<span class="string">"defaultStack"</span>&gt;&lt;/interceptor-ref&gt;</span><br><span class="line">	    		&lt;interceptor-ref name=<span class="string">"test"</span>&gt;&lt;/interceptor-ref&gt;</span><br><span class="line">	    	&lt;/interceptor-stack&gt;</span><br><span class="line">    	&lt;/interceptors&gt;</span><br><span class="line">    	&lt;default-interceptor-ref name=<span class="string">"mystack"</span>&gt;&lt;/default-interceptor-ref&gt;</span><br><span class="line">&lt;/package&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>然后将action加入到包中，结构如下</strong><br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;package name=<span class="string">"default"</span> extends=<span class="string">"struts-default"</span> namespace=<span class="string">"/sec"</span>&gt;</span><br><span class="line">    	&lt;interceptors&gt;</span><br><span class="line">	    	&lt;interceptor name=<span class="string">"test"</span> class=<span class="string">"intercept.SimpleInterceptor"</span>&gt;</span><br><span class="line">	    	&lt;/interceptor&gt;</span><br><span class="line">	    	&lt;interceptor-stack name=<span class="string">"mystack"</span>&gt;</span><br><span class="line">	    		&lt;interceptor-<span class="keyword">ref</span> name=<span class="string">"defaultStack"</span>&gt;&lt;/interceptor-<span class="keyword">ref</span>&gt;</span><br><span class="line">	    		&lt;interceptor-<span class="keyword">ref</span> name=<span class="string">"test"</span>&gt;&lt;/interceptor-<span class="keyword">ref</span>&gt;</span><br><span class="line">	    	&lt;/interceptor-stack&gt;</span><br><span class="line">    	&lt;/interceptors&gt;</span><br><span class="line">    	&lt;default-interceptor-<span class="keyword">ref</span> name=<span class="string">"mystack"</span>&gt;&lt;/default-interceptor-<span class="keyword">ref</span>&gt;</span><br><span class="line">	//加入action</span><br><span class="line">    	&lt;action name=<span class="string">"login"</span> class=<span class="string">"intercept.Login"</span>&gt;</span><br><span class="line">    		&lt;<span class="literal">result</span> name=<span class="string">"success"</span>&gt;success.jsp&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    		&lt;<span class="literal">result</span> name=<span class="string">"notR"</span>&gt;notR.jsp&lt;/<span class="literal">result</span>&gt;</span><br><span class="line">    	&lt;/action&gt;</span><br><span class="line">&lt;/package&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>接下来对拦截器SimpleInterceptor.java定义</strong><br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> intercept;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.struts2.<span class="type">ServletActionContext</span>;</span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.*;</span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.interceptor.*;</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">SimpleInterceptor</span> <span class="keyword">extends</span> <span class="title">AbstractInterceptor</span> </span>&#123;</span><br><span class="line">	public <span class="type">String</span> intercept(<span class="type">ActionInvocation</span> arg0) <span class="keyword">throws</span> <span class="type">Exception</span>&#123;</span><br><span class="line">		<span class="type">Login</span> log = (<span class="type">Login</span>) arg0.getAction();</span><br><span class="line">		<span class="type">String</span> user = <span class="type">ServletActionContext</span>.getRequest().getParameter(<span class="string">"username"</span>);</span><br><span class="line">		<span class="keyword">if</span>(user.charAt(user.length() - <span class="number">1</span>) == 'r')</span><br><span class="line">			<span class="keyword">return</span> arg0.invoke();</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">return</span> <span class="string">"notR"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="拦截器“接收参数”补充说明："><a href="#拦截器“接收参数”补充说明：" class="headerlink" title="拦截器“接收参数”补充说明："></a>拦截器“接收参数”补充说明：</h3><p><strong>这里采用的是</strong><code>ServletActionContext.getRequest().getParameter(&quot;username&quot;);</code><br><strong>注意在开头要导入包</strong><code>import org.apache.struts2.ServletActionContext;</code></p>
-<h3 id="这里有个疑惑不解，书上讲可以通过session的方法来取值，如下"><a href="#这里有个疑惑不解，书上讲可以通过session的方法来取值，如下" class="headerlink" title="这里有个疑惑不解，书上讲可以通过session的方法来取值，如下"></a>这里有个疑惑不解，书上讲可以通过session的方法来取值，如下</h3><p><strong>如果要用session方法，开头声明</strong><code>import java.util.*;</code><br><strong>在action中添加如下语句：</strong><br><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ActionContext ctx = ActionContext.getContext()<span class="comment">;</span></span><br><span class="line">Map session = ctx.getSession()<span class="comment">;</span></span><br><span class="line">session.put(<span class="string">"user"</span>, username)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>在拦截器中添加如下语句：</strong><br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ActionContext ctx = arg0.getInvocationContext();</span><br><span class="line">Map session = ctx.getSession();</span><br><span class="line"><span class="keyword">user</span> <span class="title">= (String</span>) session.get(<span class="string">"user"</span>);</span><br></pre></td></tr></table></figure></p>
-<p><strong>最后得到参数值之后在拦截器里面做判断</strong><br><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(user.charAt(user.<span class="keyword">length</span>() - <span class="number">1</span>) == <span class="string">'r'</span>)</span><br><span class="line">	<span class="keyword">return</span> arg0.invoke()<span class="comment">;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"notR"</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>在此出现的问题有：</strong></p>
-<ol>
-<li><code>arg0.invoke()</code><strong>是执行action语句，但是它是在if判断语句里，如果没有执行，session里面是怎么存值的？</strong><br><strong>我尝试运行了几次，每次把user变量打印出来，其结果都是null，自然返回“notR”</strong></li>
-<li><strong>如果将</strong><code>arg0.invoke()</code><strong>放在之前运行一次，那样的话好像就不会执行if else语句了，所以每次都会返回SUCCESS，跳转到成功界面</strong></li>
-</ol>
-<p><strong>所以目前还是不理解怎么通过session往拦截器里面传递参数并判断</strong></p>
-<p><strong>说到判断，还尝试了equals方法和正则表达式matches方法，结果不太理想，不知是语法错误还是怎样</strong></p>
-<p><strong>嗯，一个伪拦截器大概就是如此吧</strong></p>
-<h3 id="补充两点"><a href="#补充两点" class="headerlink" title="补充两点"></a>补充两点</h3><ol>
-<li><strong>JSP页面给具有命名空间的action传值：</strong><code>&lt;s:form action=&quot;login&quot; namespace=&quot;/sec&quot;&gt;</code></li>
-<li><strong>通过命名空间action指定的页面，放在“WebRoot/命名空间name”目录下</strong></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://felbry.github.io/2016/04/06/Struts2的拦截器小记/" data-id="cimyqq8rc0001dci6u9ks44xe" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Struts2/">Struts2</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-纯小白：利用Hexo和GitHub搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/05/纯小白：利用Hexo和GitHub搭建个人博客/" class="article-date">
-  <time datetime="2016-04-05T13:06:22.000Z" itemprop="datePublished">2016-04-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/05/纯小白：利用Hexo和GitHub搭建个人博客/">纯小白：利用Hexo和GitHub搭建个人博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://felbry.github.io/2016/04/05/纯小白：利用Hexo和GitHub搭建个人博客/" data-id="cimyqq8rc0006dci64i96aheu" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/杂谈/">杂谈</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
 </section>
         
           <aside id="sidebar">
