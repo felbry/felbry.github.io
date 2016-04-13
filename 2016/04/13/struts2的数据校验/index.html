@@ -14,7 +14,7 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 命名规则：Act">
 <meta property="og:type" content="article">
 <meta property="og:title" content="struts2的数据校验">
-<meta property="og:url" content="http://felbry.github.io/2016/04/13/struts2的数据校验/index.html">
+<meta property="og:url" content="http://felbry.github.io/2016/04/13/Struts2的数据校验/index.html">
 <meta property="og:site_name" content="人生，是一场又一场美好事物的追逐">
 <meta property="og:description" content="使用validate()方法校验
 使用框架校验
@@ -23,8 +23,7 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 使用框架校验为Action单独建立一个配置文件(.xml)，保存在Action类的相同目录下
 命名规则：Act">
-<meta property="og:image" content="http://felbry.github.io/../_imgs/1.png">
-<meta property="og:updated_time" content="2016-04-13T10:54:47.983Z">
+<meta property="og:updated_time" content="2016-04-13T11:13:41.842Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="struts2的数据校验">
 <meta name="twitter:description" content="使用validate()方法校验
@@ -34,7 +33,6 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 使用框架校验为Action单独建立一个配置文件(.xml)，保存在Action类的相同目录下
 命名规则：Act">
-<meta name="twitter:image" content="http://felbry.github.io/../_imgs/1.png">
   
     <link rel="alternative" href="/atom.xml" title="人生，是一场又一场美好事物的追逐" type="application/atom+xml">
   
@@ -80,9 +78,9 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-struts2的数据校验" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Struts2的数据校验" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/04/13/struts2的数据校验/" class="article-date">
+    <a href="/2016/04/13/Struts2的数据校验/" class="article-date">
   <time datetime="2016-04-13T10:03:36.000Z" itemprop="datePublished">2016-04-13</time>
 </a>
     
@@ -117,21 +115,30 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 </ul>
 <p>本地文档：</p>
 <pre><code>file:///E:/struts-2.3.24.1/docs/docs/validation.html
-</code></pre><p>声明如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE validators PUBLIC </span><br><span class="line">        "-//Apache Struts//XWork Validator 1.0.2//EN"</span><br><span class="line">        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd"&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>里面也有validator的各种详细使用说明</strong></p>
+</code></pre><p>添加声明如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE validators PUBLIC </span><br><span class="line">        "-//Apache Struts//XWork Validator 1.0.2//EN"</span><br><span class="line">        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>文档里面也有validator的各种详细使用说明</strong></p>
 <ul>
 <li>解决方法2：在myeclipse中查看jar包中的源码</li>
 </ul>
 <p><strong>Step 1</strong><br>在<strong>项目工程</strong>上点击鼠标右键，选择Properties，在弹出的对话框中选择 Java Build Path -&gt; Libraries -&gt; 选择需要添加源代码的包下边的Source attachment，在弹出的对话框中指定<strong>源码文件位置</strong></p>
 <p><strong>Step 2</strong><br>确认之后即可在项目里面找到相关的Library</p>
-<div align="center"><br>    <img src="../_imgs/1.png"><br></div>
+<p><strong>Step 3</strong><br>在</p>
+<blockquote>
+<p>xwork-core-2.3.24.1.jar</p>
+</blockquote>
+<p>包中，找到</p>
+<blockquote>
+<p>xwork-validator-1.0.2.dtd</p>
+</blockquote>
+<p>即可在注释中看到DCOTYPE的相关说明</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://felbry.github.io/2016/04/13/struts2的数据校验/" data-id="cimyqq8qx0000dci62quh6luv" class="article-share-link">Share</a>
+      <a data-url="http://felbry.github.io/2016/04/13/Struts2的数据校验/" data-id="cimyrfcj600015gi6ewm4cqq4" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/struts2/">struts2</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Struts2/">Struts2</a></li></ul>
 
     </footer>
   </div>
@@ -140,9 +147,9 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
 <nav id="article-nav">
   
   
-    <a href="/2016/04/11/Markdown语法参考/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/04/07/关于IP地址与子网划分小记/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">关于IP地址与子网划分小记</div>
     </a>
   
 </nav>
@@ -160,7 +167,7 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts2/">Struts2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/struts2/">struts2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂谈/">杂谈</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts2/">Struts2</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂谈/">杂谈</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -169,7 +176,7 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -181,11 +188,7 @@ addFieldError(&amp;quot;arg&amp;quot;,&amp;quot;msg&amp;quot;);
       <ul>
         
           <li>
-            <a href="/2016/04/13/struts2的数据校验/">struts2的数据校验</a>
-          </li>
-        
-          <li>
-            <a href="/2016/04/11/Markdown语法参考/">(no title)</a>
+            <a href="/2016/04/13/Struts2的数据校验/">struts2的数据校验</a>
           </li>
         
           <li>
