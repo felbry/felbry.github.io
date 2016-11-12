@@ -1,0 +1,775 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="struts2,struts2-json-plugin,json,ajax,mysql配置," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="struts2基本数据交换方式
+实现json数据交换方式（struts2-json-plugin）
+json-lib，java解析json字符串的包
+一个完整的Demo
+MySql数据库基础配置
+用Connector/J驱动连接MySql及常用简单语句
+待定补充开发所遇问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="struts2中利用struts2-json-plugin实现json数据交换">
+<meta property="og:url" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/index.html">
+<meta property="og:site_name" content="Felbry's Blog">
+<meta property="og:description" content="struts2基本数据交换方式
+实现json数据交换方式（struts2-json-plugin）
+json-lib，java解析json字符串的包
+一个完整的Demo
+MySql数据库基础配置
+用Connector/J驱动连接MySql及常用简单语句
+待定补充开发所遇问题">
+<meta property="og:image" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/1.png">
+<meta property="og:image" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/2.png">
+<meta property="og:image" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/3-1.png">
+<meta property="og:image" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/3-2.png">
+<meta property="og:image" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/4.png">
+<meta property="og:updated_time" content="2016-11-12T02:14:20.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="struts2中利用struts2-json-plugin实现json数据交换">
+<meta name="twitter:description" content="struts2基本数据交换方式
+实现json数据交换方式（struts2-json-plugin）
+json-lib，java解析json字符串的包
+一个完整的Demo
+MySql数据库基础配置
+用Connector/J驱动连接MySql及常用简单语句
+待定补充开发所遇问题">
+<meta name="twitter:image" content="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6285459559070828000,
+      author: 'Felbry'
+    }
+  };
+</script>
+
+  <title> struts2中利用struts2-json-plugin实现json数据交换 | Felbry's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Felbry's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                struts2中利用struts2-json-plugin实现json数据交换
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-07-05T16:49:18+08:00" content="2016-07-05">
+              2016-07-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/TECH-NOTE/" itemprop="url" rel="index">
+                    <span itemprop="name">TECH NOTE</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>struts2基本数据交换方式</li>
+<li>实现json数据交换方式（struts2-json-plugin）</li>
+<li>json-lib，java解析json字符串的包</li>
+<li>一个完整的Demo</li>
+<li>MySql数据库基础配置</li>
+<li>用Connector/J驱动连接MySql及常用简单语句</li>
+<li>待定补充开发所遇问题</li>
+</ul>
+<a id="more"></a>
+<h2 id="struts2基本数据交换方式"><a href="#struts2基本数据交换方式" class="headerlink" title="struts2基本数据交换方式"></a>struts2基本数据交换方式</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>因为对struts2框架了解不是很多，很多知识都是草草地翻过几页课本得到的，所以在我印象里其数据交换方式无非是<br>1.前台form表格指定action(name)将值传入后台，<br>2.然后在struts.xml中指定action的处理类，对前台传过来的数据的处理就在这个指定的类中进行，<br>3.在指定的类中将前台所需要的数据通过setter方法存入bean中，<br>4.前台需要访问数据就通过<strong>&lt; s:property value=’’ /&gt;</strong>来进行，value的值对应bean中的变量。<br><strong>流程图</strong><br><img src="/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/1.png" alt="1.png" title=""></p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">login<span class="selector-class">.jsp</span></div><div class="line">&lt;<span class="selector-tag">form</span> action=<span class="string">"check"</span> method=<span class="string">"post"</span>&gt;</div><div class="line">    &lt;<span class="selector-tag">input</span> type=<span class="string">"text"</span> name=<span class="string">"user.username"</span>&gt;</div><div class="line">    &lt;<span class="selector-tag">input</span> type=<span class="string">"text"</span> name=<span class="string">"user.password"</span>&gt;</div><div class="line">    &lt;<span class="selector-tag">input</span> type=<span class="string">"submit"</span> value=<span class="string">"提交"</span>&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struts.xml</div><div class="line">&lt;package <span class="built_in">name</span>=<span class="string">"default"</span> extends=<span class="string">"struts-default"</span>&gt;</div><div class="line">    &lt;action <span class="built_in">name</span>=<span class="string">"check"</span> <span class="built_in">class</span>=<span class="string">"login.CheckInfo"</span>&gt;</div><div class="line">        &lt;<span class="literal">result</span> <span class="built_in">name</span>=<span class="string">"success"</span>&gt;success.jsp&lt;/<span class="literal">result</span>&gt;</div><div class="line">        &lt;<span class="literal">result</span> <span class="built_in">name</span>=<span class="string">"false"</span>&gt;failure.jsp&lt;/<span class="literal">result</span>&gt;</div><div class="line">    &lt;/action&gt;</div><div class="line">&lt;/package&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="type">CheckInfo</span>.java</div><div class="line"><span class="keyword">package</span> login;</div><div class="line"><span class="keyword">import</span> com.opensymphony.xwork2.*;</div><div class="line"><span class="keyword">import</span> login.<span class="type">User</span>;</div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">CheckInfo</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span> </span>&#123;</div><div class="line">    <span class="type">User</span> user;</div><div class="line">    <span class="comment">//setter方法是必须的，不然会抛出无法赋值的错误</span></div><div class="line">    public <span class="type">User</span> getUser() &#123;</div><div class="line">        <span class="keyword">return</span> user;</div><div class="line">    &#125;</div><div class="line">    public void setUser(<span class="type">User</span> user) &#123;</div><div class="line">        <span class="keyword">this</span>.user = user;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span> public <span class="type">String</span> execute()&#123;</div><div class="line">        user.setTotal(user.username + user.password + <span class="string">"yes"</span>);  <span class="comment">//便于结果界面访问值</span></div><div class="line">        <span class="keyword">return</span> <span class="type">SUCCESS</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">UserBean.java</div><div class="line"><span class="keyword">package</span> login;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">String</span> username,password,total;</div><div class="line">    <span class="comment">//setter,getter方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">success.jsp</div><div class="line"><span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"user.total"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"user.username"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"user.password"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>这种通过form提交数据，<strong>&lt; s:property value=’’ /&gt;</strong>访问数据的方式显然有些笨拙，会导致为了完成某些简单功能在几个页面之间跳来跳去。所以如果采用json数据格式，通过ajax来异步刷新页面会更友好。即<strong>不再返回一个完整页面，而是返回一个json对象，通过回调函数来处理这个json对象数据，再操作dom元素。</strong></p>
+<h3 id="补充（setter作用）"><a href="#补充（setter作用）" class="headerlink" title="补充（setter作用）"></a>补充（setter作用）</h3><p>struts框架下，action处理类要想获得前台参数值，需要在类中定义和前台name相同的变量名，然后设置setter方法，就会默认取到。<br>所以如果一个action类中import一个Bean类的话，要想获得前台的值，不仅要声明一个bean对象，还要设置相应的setter方法，以便bean对象能顺利取到值。</p>
+<h2 id="实现json数据交换方式（struts2-json-plugin）"><a href="#实现json数据交换方式（struts2-json-plugin）" class="headerlink" title="实现json数据交换方式（struts2-json-plugin）"></a>实现json数据交换方式（struts2-json-plugin）</h2><p>如前一节所说，返回一个完整页面显然很笨重且不友好。现在很多网站都不会采用这种方式，而是采用Ajax异步刷新技术，而这种技术最常用的数据格式便是json了，因为它比较轻量且易于操作。<br>struts2有struts2-json-plugin来返回一个json对象。在此不需要深究它的源码，只需要了解它的机制：<strong>它会将所有的变量序列化成一个json对象（键值对）然后返回给前台</strong>。当然这个返回的值是可自定义的，一种方法是在变量的getter方法前声明@JSON(deserialize/serialize=true)来指定某个变量序列化或不序列化，另一种方法是在struts.xml中在对应的action标签中定义param变量，指定某些变量序列化或不序列化，param变量还有其他几个有用的可选参数，在此只作简单介绍，详细移步文档：<a href="https://struts.apache.org/docs/json-plugin.html" target="_blank" rel="external">JSON plugn Doc</a></p>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><strong>基于上一节的流程图，在jsp页面和struts.xml文件之间加上一个js文件，由js发起请求，并在回调函数中接收后端返回的json对象。</strong></p>
+<img src="/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/2.png" alt="2.png" title="">
+<h3 id="条件与使用"><a href="#条件与使用" class="headerlink" title="条件与使用"></a>条件与使用</h3><p>1.在<strong>WebRoot/WEB-INF/lib</strong>文件夹下导入struts2-json-plugin包（自行下载）<br>2.如需使用<strong>@JSON xxx</strong>声明，在action类开头声明<strong>import org.apache.struts2.json.annotations.JSON;</strong>（有时复制进去的不管用）<br>3.在struts.xml文件中，package要继承<strong>json-default</strong>(json-default继承自struts-default)， action标签中的result标签，添加属性<strong>type=”json”</strong></p>
+<h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">login.jsp</div><div class="line"><span class="comment">&lt;!-- 之所以不用form表，是因为submit在form表被点击就会刷新页面，不方便看xhr --&gt;</span></div><div class="line"></div><div class="line">用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"username"</span>&gt;</span></div><div class="line">密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"password"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/jquery-2.2.4.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/identInfo.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">identInfo.js</div><div class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'input[type="submit"]'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> data = &#123;</div><div class="line">            <span class="attr">username</span>: $(<span class="string">'#username'</span>).val(),</div><div class="line">            <span class="attr">password</span>: $(<span class="string">'#password'</span>).val()</div><div class="line">        &#125;;</div><div class="line">        <span class="comment">//请求name为check的action，传入一个Object(json)变量</span></div><div class="line">        $.post(<span class="string">'check'</span>, data, <span class="function"><span class="keyword">function</span>(<span class="params">res, textStatus, xhr</span>) </span>&#123;</div><div class="line">            <span class="comment">//打印出返回的res</span></div><div class="line">            <span class="built_in">console</span>.log(res);</div><div class="line">        &#125;);</div><div class="line">    &#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struts.xml</div><div class="line">&lt;<span class="keyword">package</span> name=<span class="string">"default"</span> <span class="keyword">extends</span>=<span class="string">"struts-default,json-default"</span>&gt;</div><div class="line">    &lt;action name=<span class="string">"check"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"login.CheckInfo"</span>&gt;</div><div class="line">        &lt;result name=<span class="string">"success"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"json"</span>&gt;&lt;/result&gt;</div><div class="line">    &lt;/action&gt;</div><div class="line">&lt;/<span class="keyword">package</span>&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="type">CheckInfo</span>.java</div><div class="line"><span class="keyword">package</span> login;</div><div class="line"><span class="keyword">import</span> com.opensymphony.xwork2.*;</div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">CheckInfo</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span> </span>&#123;</div><div class="line">    <span class="type">String</span> username,password,resStr = <span class="string">"I am a response string"</span>;</div><div class="line">    <span class="comment">//getter和setter方法</span></div><div class="line">    <span class="meta">@Override</span> public <span class="type">String</span> execute()&#123;</div><div class="line">        <span class="type">System</span>.out.println(username);   <span class="comment">//123</span></div><div class="line">        <span class="type">System</span>.out.println(password);   <span class="comment">//456</span></div><div class="line">        <span class="keyword">return</span> <span class="type">SUCCESS</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>页面中输入123,456，点击提交<br><img src="/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/3-1.png" alt="3-1.png" title=""><br>在后台会分别输出username，password的值123,456</p>
+<p>接着在浏览器按F12查看控制台<br><img src="/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/3-2.png" alt="3-2.png" title=""><br>发现返回的json对象中有三个属性，分别为username，password和resStr。因为我们没有特意指定哪些不需要返回，所以默认的所有变量都会被序列化进返回的json对象中。</p>
+<h3 id="补充（为什么用json-lib）"><a href="#补充（为什么用json-lib）" class="headerlink" title="补充（为什么用json-lib）"></a>补充（为什么用json-lib）</h3><p><strong>这种方式太过于简单。一般我们会把变量及对应值都储存在一个Bean当中，然后在action中进行存取操作。想象一下，如果按照所说的那样，我们就要像第一节中的某些代码一样，在action中定义一个Bean对象，设置setter和getter方法；同时为了匹配对象属性，能够赋值成功，就不得不把前台变量名改为形如user.username的格式。不然就会抛Error setting expression ‘xxx’ with value [‘xxx’, ]的错误。</strong><br><strong>显然变量名user.username这种格式在js中是存在错误的，所以并不能以这种方式顺利的传值给后台。这时候就用到了json-lib包，它的好处在于提供一些方法，可以直接将一个json字符串解析并赋值给指定Bean对象的各个属性。也就是说，在js中，只需要将所需的数据封装成一个json字符串，以字符串的形式传递给后台，后台通过一条语句就能完成全部赋值工作。</strong></p>
+<h2 id="json-lib，java解析json字符串的包"><a href="#json-lib，java解析json字符串的包" class="headerlink" title="json-lib，java解析json字符串的包"></a>json-lib，java解析json字符串的包</h2><p>使用json-lib包，同时还要导入它的依赖包(否则会在解析时报错)。这里有篇文章提供了json-lib包及其所有依赖包的打包下载(在文章最后)，以及json-lib的常用方法，介绍的很详细。链接：<a href="http://www.sojson.com/blog/20" target="_blank" rel="external">JSON-LIB jar包下载和使用</a>。<br>我在这里只简单介绍下思路，对第二节的代码进行适当修改，让它更具灵活性。<br>json-lib提供了几个方法<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">JSONObject</span> jsonObject = <span class="keyword">JSONObject</span>.fromObject(jsonString);  <span class="comment">//将一json字符串转为jsonObject</span></div><div class="line"><span class="keyword">JSONObject</span>.toBean(jsonObject, clazz);   <span class="comment">//将jsonObject的值分别赋给对应的bean属性</span></div></pre></td></tr></table></figure></p>
+<p>我们将它封装成一个方法，以便调用<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">Object</span> getObj(<span class="keyword">String</span> jsonString, Class clazz) &#123;</div><div class="line">    <span class="keyword">JSONObject</span> jsonObject = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        jsonObject = <span class="keyword">JSONObject</span>.fromObject(jsonString);</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">JSONObject</span>.toBean(jsonObject, clazz);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样一来，第二节的action就可以修改为<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="type">CheckInfo</span>.java</div><div class="line"><span class="keyword">package</span> login;</div><div class="line"></div><div class="line"><span class="keyword">import</span> login.<span class="type">User</span>;</div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">import</span> net.sf.json.<span class="type">JSONObject</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.opensymphony.xwork2.*;</div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">CheckInfo</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span> </span>&#123;</div><div class="line">    <span class="type">String</span> myjson;</div><div class="line">    <span class="meta">@JSON</span>(deserialize=<span class="literal">true</span>) <span class="comment">//不返回myjson变量</span></div><div class="line">    public <span class="type">String</span> getMyjson() &#123;</div><div class="line">        <span class="keyword">return</span> myjson;</div><div class="line">    &#125;</div><div class="line">    public void setMyjson(<span class="type">String</span> myjson) &#123;</div><div class="line">        <span class="keyword">this</span>.myjson = myjson;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span> public <span class="type">String</span> execute()&#123;</div><div class="line">        <span class="type">User</span> user = (<span class="type">User</span>) getObj(myjson, <span class="type">User</span>.<span class="keyword">class</span>);</div><div class="line">        <span class="comment">//假设前台输入456,789</span></div><div class="line">        <span class="type">System</span>.out.println(myjson); <span class="comment">//&#123;"username":"456","password":"789"&#125;</span></div><div class="line">        <span class="type">System</span>.out.println(user.username);  <span class="comment">//456</span></div><div class="line">        <span class="type">System</span>.out.println(user.password);  <span class="comment">//789</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>如此，我们便完成了解析赋值的工作。现在，要考虑返回json对象的问题。CheckInfo.java中目前只有一个myjson变量，并且设置了不进行序列化。所以此时返回一个空的json对象。<br>要返回前台所需的数据（即某个bean的多个属性值），有两种方法：<br>一种是在struts.xml中的action里设置<strong>&lt; param name=”root” &gt;…&lt; /param &gt;</strong>指定从哪里开始序列化，详情请参照文档；<br>另一种比较简单也比较灵活的，是在当前action中声明一个dataMap变量：<strong>private Map&lt; String,Object &gt; dataMap;</strong>，设置getter方法，将所有的实例化Bean对象put进dataMap，从而能够全部返回。如下代码所示<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">CheckInfo.java</div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> CheckInfo extends ActionSupport &#123;</div><div class="line">    <span class="keyword">String</span> myjson;</div><div class="line">    <span class="keyword">private</span> Map&lt;<span class="keyword">String</span>,Object&gt; dataMap;</div><div class="line">    <span class="comment">//对应的(setter)和getter方法</span></div><div class="line">    @JSON(deserialize=true) <span class="comment">//不返回myjson变量</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getMyjson() &#123;</div><div class="line">        <span class="built_in">return</span> myjson;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> setMyjson(<span class="keyword">String</span> myjson) &#123;</div><div class="line">        <span class="keyword">this</span>.myjson = myjson;</div><div class="line">    &#125;</div><div class="line">    @Override <span class="keyword">public</span> <span class="keyword">String</span> execute()&#123;</div><div class="line">        User user = (User) getObj(myjson, User.<span class="keyword">class</span>);</div><div class="line">        <span class="comment">//假设前台输入456,789</span></div><div class="line">        System.out.<span class="built_in">println</span>(myjson); <span class="comment">//&#123;"username":"456","password":"789"&#125;</span></div><div class="line">        System.out.<span class="built_in">println</span>(user.username);  <span class="comment">//456</span></div><div class="line">        System.out.<span class="built_in">println</span>(user.password);  <span class="comment">//789</span></div><div class="line">        <span class="comment">// ----------------------------------</span></div><div class="line">        <span class="comment">//不完整的代码，只为展示执行完sql语句返回n组数据如何处理</span></div><div class="line">         ResultSet rs = stmt.executeQuery(sql);</div><div class="line">         <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">         <span class="built_in">while</span>(rs.next())&#123;</div><div class="line">             Member memberJson = <span class="keyword">new</span> Member();</div><div class="line">             memberJson.setName(rs.getString(<span class="number">1</span>));</div><div class="line">             memberJson.setSex(rs.getString(<span class="number">2</span>));</div><div class="line">             <span class="comment">//3,4,5...</span></div><div class="line">             dataMap.<span class="built_in">put</span>(<span class="string">""</span>+ i +<span class="string">""</span>, memberJson);</div><div class="line">             i++;</div><div class="line">         &#125;</div><div class="line">         <span class="comment">//此时前台返回对象Object&#123;1: &#123;&#125;, 2: &#123;&#125;, 3: &#123;&#125;, ...&#125;</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="补充（前台js处理返回的Object问题）"><a href="#补充（前台js处理返回的Object问题）" class="headerlink" title="补充（前台js处理返回的Object问题）"></a>补充（前台js处理返回的Object问题）</h3><p>由于返回的是一个json对象数组，准确的说是形如数组。所以在处理上也碰到一些小问题。下边分享一下我的奇葩解决方式。<br>以下方式全部基于访问对象<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">Object</span>&#123;<span class="attribute">1</span>: &#123;<span class="attribute">attr1</span>: .., <span class="attribute">attr2</span>: .., ..&#125;, <span class="attribute">2</span>: &#123;&#125;, <span class="attribute">3</span>: &#123;&#125;, ...&#125;</div></pre></td></tr></table></figure></p>
+<p>1.计算Object的长度<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> arr = [];</div><div class="line"><span class="keyword">for</span>(<span class="built_in">var</span> i <span class="keyword">in</span> res)&#123;</div><div class="line">    arr.<span class="built_in">push</span>(i);</div><div class="line">&#125;</div><div class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">length</span>);</div></pre></td></tr></table></figure></p>
+<p>2.按顺序遍历res中的每个对象<br>开始使用的是<strong>for(var i in res)</strong>，<br>到<strong>排序</strong>的时候发现在页面显示的结果不对。无论是数据库还是后台查看输出结果都是正常的，后来发现原来<strong>for(var i in res)</strong>是随机遍历res的。然后就有了下面的解决办法<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(var i = <span class="number">0</span>; i &lt; arr.length; i++)&#123;</div><div class="line">    var <span class="built_in">str</span> = <span class="string">''</span>+ i +<span class="string">''</span>;</div><div class="line">    console.<span class="built_in">log</span>(res[<span class="built_in">str</span>].attr1);    <span class="comment">//attr1,2,3为变量名</span></div><div class="line">    console.<span class="built_in">log</span>(res[<span class="built_in">str</span>].attr2);</div><div class="line">    console.<span class="built_in">log</span>(res[<span class="built_in">str</span>].attr3);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>补充：一般访问json对象属性用<strong>obj.attr.attr</strong></p>
+<h2 id="一个完整的Demo"><a href="#一个完整的Demo" class="headerlink" title="一个完整的Demo"></a>一个完整的Demo</h2><p>移步： <a href="https://github.com/felbry/social-organization-management" target="_blank" rel="external">社团成员信息管理系统：CRUD和筛选排序</a><br>数据库结构信息：<br><img src="/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/4.png" alt="4.png" title=""></p>
+<h2 id="MySql数据库基础配置"><a href="#MySql数据库基础配置" class="headerlink" title="MySql数据库基础配置"></a>MySql数据库基础配置</h2><p>参照了以下两篇文章汇总结合，其中各有优缺，总结出比较完善的配置。建议看不懂这里步骤的可以先看看这两篇文章，对流程有个大概的认知。<br><a href="http://www.cnblogs.com/yyhh/p/5062153.html" target="_blank" rel="external">MySQL环境部署</a><br><a href="http://www.cnblogs.com/mr-wid/archive/2013/05/09/3068229.html" target="_blank" rel="external">21分钟MySQL入门教程</a></p>
+<p>步骤：<br>1.下载zip文件(msi的就不用往下看了) <a href="http://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">下载地址</a><br>2.解压到某个文件夹，然后配置MYSQL_HOME和path变量<br>3.修改配置文件my-default.ini，以下是几个重要配置（版本号视自己的版本而定，路径建议都写为绝对路径），然后重命名为my.ini<br><strong># 设置mysql的安装目录</strong><br>basedir=D:/mysql-5.6.13</p>
+<p><strong># 设置mysql数据库的数据的存放目录</strong><br>datadir=D:/mysql-5.6.13/data</p>
+<p><strong># 字符编码</strong><br>[client]<br>default-character-set=utf8</p>
+<p>[mysql]<br>default-character-set=utf8</p>
+<p>[mysqld]<br>character-set-server=utf8<br>collation-server=utf8_unicode_ci</p>
+<p><strong>字符编码很重要，不然后续会出现乱码情况，如果有乱码状况，也可以暂停并删除服务，配置好my.ini文件，重新安装服务。</strong></p>
+<p>这里有两篇解决乱码的文章写得不错，提供参考<br><a href="http://www.osyunwei.com/archives/9178.html" target="_blank" rel="external">修改MySQL字符编码为UTF-8解决中文乱码</a><br><a href="http://blog.sina.com.cn/s/blog_76786df30101aqfp.html" target="_blank" rel="external">Mysql中文乱码以及Incorrect string value的问题</a></p>
+<p>4.安装服务：以管理员方式进入cmd<br>执行mysqld –install mysql –defaults-file=”my.ini”   <strong>这里的my.ini文件路径建议用绝对路径而不是我这个相对路径</strong></p>
+<p>5.初始化服务（为了生成data目录）<br>执行mysqld –initialize –user=mysql –console</p>
+<p>打印形如：</p>
+<pre><code>D:\Service\mysql57\bin&gt;mysqld --initialize --user=mysql --console
+2015-12-20T08:13:45.264865Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2015-12-20T08:13:45.854579Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2015-12-20T08:13:45.998772Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2015-12-20T08:13:46.098118Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 9755c3ea-a6f1-11e5-81a3-74d02b122fb3.
+2015-12-20T08:13:46.121617Z 0 [Warning] Gtid table is not ready to be used. Table &apos;mysql.gtid_executed&apos; cannot be opened.
+2015-12-20T08:13:46.135153Z 1 [Note] A temporary password is generated for root@localhost: g!gRw!d%M0Sj
+</code></pre><p>记住最后的<strong>root@localhost: g!gRw!d%M0Sj</strong>，这个是初始的登录密码</p>
+<p>6.启动服务<br>net start mysql</p>
+<p>7.使用初始登录密码登录并修改密码<br>mysql -u root -p<br>Enter password:(输入初始密码)</p>
+<p>登录成功之后<br>mysql&gt; set password = password(‘your password’);</p>
+<p>8.安装workbench图形化界面（可选）<br><a href="http://dev.mysql.com/downloads/workbench/" target="_blank" rel="external">下载地址</a></p>
+<p>完成配置。</p>
+<h2 id="用Connector-J驱动连接MySql及常用简单语句"><a href="#用Connector-J驱动连接MySql及常用简单语句" class="headerlink" title="用Connector/J驱动连接MySql及常用简单语句"></a>用Connector/J驱动连接MySql及常用简单语句</h2><p>Connector/J驱动是MySql官方的JDBC驱动，用于java中连接数据库。<br><a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">Download Connector/J</a></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>1.导入../WEB-INF/lib中<br>2.在java文件中添加<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta"><span class="meta-keyword">import</span> java.sql.*;</span></div><div class="line"><span class="comment">//databaseName为指定的数据库名</span></div><div class="line">String URL = <span class="string">"jdbc:mysql://localhost/databaseName?autoReconnect=true&amp;useSSL=false"</span>;</div><div class="line"><span class="comment">//加载驱动</span></div><div class="line">Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line"><span class="comment">//创建连接对象con</span></div><div class="line">Connection con = DriverManager.getConnection(URL, <span class="string">"用户名"</span>, <span class="string">"密码"</span>);</div></pre></td></tr></table></figure></p>
+<p>注意在URL中添加<strong>useSSL=false</strong>，不然会出现warn：</p>
+<pre><code>WARN: Establishing SSL connection without server&apos;s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn&apos;t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to &apos;false&apos;. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+</code></pre><p>创建连接对象之后就可以调用各种语句了，基本和SQL SERVER是一个样子。</p>
+<h3 id="简单语句"><a href="#简单语句" class="headerlink" title="简单语句"></a>简单语句</h3><p>1.查询语句<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">String sql</span> = <span class="string">"select * from table"</span>;</div><div class="line"><span class="attribute">Statement stmt</span> = con.createStatement();</div><div class="line"><span class="attribute">ResultSet rs</span> = stmt.executeQuery(sql);</div></pre></td></tr></table></figure></p>
+<p>2.条件语句<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String user = <span class="string">"felbry"</span><span class="comment">;</span></div><div class="line">int age = <span class="number">21</span><span class="comment">;</span></div><div class="line">sql+=<span class="string">" user = ? AND age = ?"</span><span class="comment">;</span></div><div class="line">PreparedStatement ps = con.prepareStatement(sql)<span class="comment">;</span></div><div class="line">ps.setString(<span class="number">1</span>, user)<span class="comment">;</span></div><div class="line">ps.setInt(<span class="number">2</span>, age)<span class="comment">;</span></div><div class="line">ResultSet rs = ps.executeQuery()<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>3.小结<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">executeQuery</span><span class="params">()</span>,<span class="title">executeUpdate</span><span class="params">()</span>,<span class="title">execute</span><span class="params">()</span></span></div></pre></td></tr></table></figure></p>
+<p>4.关闭连接<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rs.<span class="built_in">close</span>();</div><div class="line">stmt.<span class="built_in">close</span>();</div><div class="line">ps.<span class="built_in">close</span>();</div><div class="line"><span class="built_in">con</span>.<span class="built_in">close</span>();</div></pre></td></tr></table></figure></p>
+<h2 id="待定补充开发所遇问题"><a href="#待定补充开发所遇问题" class="headerlink" title="待定补充开发所遇问题"></a>待定补充开发所遇问题</h2><p>Good Night.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/mycode.jpg" alt="Felbry wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎扫码交流</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/struts2/" rel="tag">#struts2</a>
+          
+            <a href="/tags/struts2-json-plugin/" rel="tag">#struts2-json-plugin</a>
+          
+            <a href="/tags/json/" rel="tag">#json</a>
+          
+            <a href="/tags/ajax/" rel="tag">#ajax</a>
+          
+            <a href="/tags/mysql配置/" rel="tag">#mysql配置</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/21/nodejs学习手记/" rel="next" title="nodejs学习手记">
+                <i class="fa fa-chevron-left"></i> nodejs学习手记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/07/读《Javascript权威指南（6）》/" rel="prev" title="读《Javascript权威指南（6）》">
+                读《Javascript权威指南（6）》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/"
+           data-title="struts2中利用struts2-json-plugin实现json数据交换" data-url="http://felbry.github.io/2016/07/05/struts2中利用struts2-json-plugin实现json数据交换/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/me.jpg"
+               alt="Felbry" />
+          <p class="site-author-name" itemprop="name">Felbry</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/felbry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2584732117/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#struts2基本数据交换方式"><span class="nav-number">1.</span> <span class="nav-text">struts2基本数据交换方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">1.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例"><span class="nav-number">1.2.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充（setter作用）"><span class="nav-number">1.3.</span> <span class="nav-text">补充（setter作用）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现json数据交换方式（struts2-json-plugin）"><span class="nav-number">2.</span> <span class="nav-text">实现json数据交换方式（struts2-json-plugin）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程图"><span class="nav-number">2.1.</span> <span class="nav-text">流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件与使用"><span class="nav-number">2.2.</span> <span class="nav-text">条件与使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例-1"><span class="nav-number">2.3.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充（为什么用json-lib）"><span class="nav-number">2.4.</span> <span class="nav-text">补充（为什么用json-lib）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json-lib，java解析json字符串的包"><span class="nav-number">3.</span> <span class="nav-text">json-lib，java解析json字符串的包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#补充（前台js处理返回的Object问题）"><span class="nav-number">3.1.</span> <span class="nav-text">补充（前台js处理返回的Object问题）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个完整的Demo"><span class="nav-number">4.</span> <span class="nav-text">一个完整的Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySql数据库基础配置"><span class="nav-number">5.</span> <span class="nav-text">MySql数据库基础配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用Connector-J驱动连接MySql及常用简单语句"><span class="nav-number">6.</span> <span class="nav-text">用Connector/J驱动连接MySql及常用简单语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">6.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单语句"><span class="nav-number">6.2.</span> <span class="nav-text">简单语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待定补充开发所遇问题"><span class="nav-number">7.</span> <span class="nav-text">待定补充开发所遇问题</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Felbry</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"felbry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

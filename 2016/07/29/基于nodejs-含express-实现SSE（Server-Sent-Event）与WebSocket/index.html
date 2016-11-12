@@ -1,0 +1,726 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nodejs,Server-Sent Event,express,comet,WebSocket,leanEngine,部署," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言
+SSE
+WebSocket">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于nodejs(含express)实现SSE（Server-Sent Event）与WebSocket">
+<meta property="og:url" content="http://felbry.github.io/2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/index.html">
+<meta property="og:site_name" content="Felbry's Blog">
+<meta property="og:description" content="引言
+SSE
+WebSocket">
+<meta property="og:image" content="http://felbry.github.io/2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/1.png">
+<meta property="og:updated_time" content="2016-11-12T02:14:20.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于nodejs(含express)实现SSE（Server-Sent Event）与WebSocket">
+<meta name="twitter:description" content="引言
+SSE
+WebSocket">
+<meta name="twitter:image" content="http://felbry.github.io/2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6285459559070828000,
+      author: 'Felbry'
+    }
+  };
+</script>
+
+  <title> 基于nodejs(含express)实现SSE（Server-Sent Event）与WebSocket | Felbry's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Felbry's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于nodejs(含express)实现SSE（Server-Sent Event）与WebSocket
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T10:45:52+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/TECH-NOTE/" itemprop="url" rel="index">
+                    <span itemprop="name">TECH NOTE</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>引言</li>
+<li>SSE</li>
+<li>WebSocket</li>
+</ul>
+<a id="more"></a>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>关于SSE和WebSocket的区别及适用场景（服务端、传输频率等），优缺点，兼容性这里不做相关解释，均可以通过检索得到。本文旨在分析一个基本实例的结构思想。</p>
+<h2 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h2><p><a href="https://github.com/waylau/Jersey-2.x-User-Guide/blob/master/Chapter%2015.%20Server-Sent%20Events%20(SSE&#41;%20Support/15.1.%20What%20are%20Server-Sent%20Events.md" target="_blank" rel="external">什么是SSE</a></p>
+<h3 id="所需条件"><a href="#所需条件" class="headerlink" title="所需条件"></a>所需条件</h3><p><strong>参照 <a href="https://segmentfault.com/a/1190000004682473#articleHeader3" target="_blank" rel="external">前端通信进阶</a>，总结如下</strong><br>客户端：<br>1.创建EventSource对象，指定url（即与服务端建立联系）<br><code>var source = new EventSource(&#39;/chat&#39;);</code><br>2.监听事件<br>默认的open，message，error（可自定义事件）<br>两种形式<code>source.onmessage = function(event){};</code>和<code>source.addEventListener(&#39;message&#39;, callback)</code><br>3.event属性<br>data，origin，lastEventId<br>4.发送数据格式（一般建立连接后，通过一个ajax事件上传数据）<br>指定Content-Type为<code>text/plain;charset=UTF-8</code><br>(试过将content-type设置为json格式的，但服务器接收的依然是string)</p>
+<p>服务端：<br>1.设置响应头<br><figure class="highlight sml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="symbol">'Content</span>-<span class="type">Type'</span>: <span class="string">"text/event-stream"</span>,</div><div class="line"> <span class="symbol">'Cache</span>-<span class="type">Control'</span>: <span class="symbol">'no</span>-cache',</div><div class="line"> <span class="symbol">'Connection'</span>: <span class="symbol">'keep</span>-alive'&#125;</div></pre></td></tr></table></figure></p>
+<p>2.返回数据格式（可选）<br>空类型（即注释），event（默认为message），data，id，retry</p>
+<p><strong>用res.write()向客户端发送数据，以’\n\n’结尾来发送一次事件流，彻底断开连接用res.end()</strong><br>举例：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//一次事件流</span></div><div class="line">res.<span class="built_in">write</span>(<span class="string">"id: "</span> + num + <span class="string">"\n"</span>);</div><div class="line">res.<span class="built_in">write</span>(<span class="string">"event: "</span> + str + <span class="string">"\n"</span>);</div><div class="line">res.<span class="built_in">write</span>(<span class="string">"data: "</span> + datastr + <span class="string">"\n\n"</span>);</div><div class="line"></div><div class="line"><span class="comment">//如果一个request断开连接，则结束对应的response</span></div><div class="line">res.<span class="built_in">end</span>();</div></pre></td></tr></table></figure></p>
+<h3 id="一个示例"><a href="#一个示例" class="headerlink" title="一个示例"></a>一个示例</h3><p>一个基本的SSE结构应该满足于客户端与服务端建立联系，客户端再次向服务端发送请求（一般为post）从而触发服务端向（多个）客户端推送数据。本示例基于《javascript权威指南（第六版）》的代码进行更改简化。</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>1.客户端先请求一个页面（url为’/‘）<br>2.服务端返回一个chat.html页面，载入完成后在客户端创建一个EventSource对象（url为’/chat’）<br>3.服务端设置相关路由，在url为’/chat’的前提下，如果方法为post，即客户端上传数据，此时处理数据并将要返回的数据通过forEach()广播给每个客户端（clients数组）；否则即客户端在请求一个新的信息流（可以视为新用户），服务端为其设置相关响应头，并将其相应对象push进clients数组中（以便未来推送消息）<br>4.当一个请求关闭连接之后，要将其对应的响应对象从clients数组中删除</p>
+<h4 id="截图"><a href="#截图" class="headerlink" title="截图"></a>截图</h4><img src="/2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/1.png" alt="1.png" title="">
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line">chatserver.js</div><div class="line"><span class="keyword">var</span> http = <span class="keyword">require</span>(<span class="string">'http'</span>);  <span class="comment">// NodeJS HTTP server API</span></div><div class="line"></div><div class="line"><span class="comment">// The HTML file for the chat client. Used below.</span></div><div class="line"><span class="keyword">var</span> clientui = <span class="keyword">require</span>(<span class="string">'fs'</span>).readFileSync(<span class="string">"chat.html"</span>);</div><div class="line"></div><div class="line"><span class="comment">// An array of ServerResponse objects that we're going to send events to</span></div><div class="line"><span class="keyword">var</span> clients = [];</div><div class="line"></div><div class="line"><span class="comment">// Create a new server</span></div><div class="line"><span class="keyword">var</span> server = <span class="keyword">new</span> http.Server();  </div><div class="line"></div><div class="line"><span class="comment">// When the server gets a new request, run this function</span></div><div class="line">server.on(<span class="string">"request"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>&#123;</div><div class="line">    <span class="comment">// Parse the requested URL</span></div><div class="line">    <span class="keyword">var</span> url = <span class="keyword">require</span>(<span class="string">'url'</span>).parse(request.url);</div><div class="line"></div><div class="line">    <span class="comment">// If the request was for "/", send the client-side chat UI.</span></div><div class="line">    <span class="keyword">if</span> (url.pathname === <span class="string">"/"</span>) &#123;  <span class="comment">// A request for the chat UI</span></div><div class="line">        response.writeHead(<span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"text/html"</span>&#125;);</div><div class="line">        response.write(clientui);</div><div class="line">        response.end();</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Send 404 for any request other than "/chat"</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (url.pathname !== <span class="string">"/chat"</span>) &#123;</div><div class="line">        response.writeHead(<span class="number">404</span>);</div><div class="line">        response.end();</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// If the request was a post, then a client is posting a new message</span></div><div class="line">    <span class="keyword">if</span> (request.method === <span class="string">"POST"</span>) &#123;</div><div class="line">        <span class="keyword">var</span> body = <span class="string">""</span>;</div><div class="line">        <span class="comment">// When we get a chunk of data, add it to the body     </span></div><div class="line">        request.on(<span class="string">"data"</span>, <span class="function"><span class="keyword">function</span><span class="params">(chunk)</span> </span>&#123; body += chunk; &#125;);</div><div class="line"></div><div class="line">        <span class="comment">// When the request is done, send an empty response </span></div><div class="line">        <span class="comment">// and broadcast the message to all listening clients.</span></div><div class="line">        request.on(<span class="string">"end"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">            response.writeHead(<span class="number">200</span>);   <span class="comment">// Respond to the request</span></div><div class="line">            response.end();</div><div class="line"></div><div class="line">            <span class="comment">// Format the message in text/event-stream format</span></div><div class="line">            <span class="comment">// Make sure each line is prefixed with "data:" and that it is</span></div><div class="line">            <span class="comment">// terminated with two newlines.</span></div><div class="line">            message = <span class="string">'data: '</span> + body.replace(<span class="string">'\n'</span>, <span class="string">'\ndata: '</span>) + <span class="string">"\r\n\r\n"</span>;</div><div class="line">            <span class="comment">// Now send this message to all listening clients</span></div><div class="line">            <span class="comment">//console.log('post:' + clients);</span></div><div class="line">            clients.<span class="keyword">forEach</span>(<span class="function"><span class="keyword">function</span><span class="params">(client)</span> </span>&#123; client.write(message); &#125;);</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Otherwise, a client is requesting a stream of messages</span></div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// Set the content type and send an initial message event </span></div><div class="line">        response.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>: <span class="string">"text/event-stream"</span>,</div><div class="line">                                 <span class="string">'Cache-Control'</span>: <span class="string">'no-cache'</span>,</div><div class="line">                                 <span class="string">'Connection'</span>: <span class="string">'keep-alive'</span>&#125;);</div><div class="line">        response.write(<span class="string">"data: Connected\n\n"</span>);</div><div class="line">        <span class="comment">// If the client closes the connection, remove the corresponding</span></div><div class="line">        <span class="comment">// response object from the array of active clients</span></div><div class="line">        request.connection.on(<span class="string">"end"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">            clients.splice(clients.indexOf(response), <span class="number">1</span>);</div><div class="line">            response.end();</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        <span class="comment">// Remember the response object so we can send future messages to it</span></div><div class="line">        clients.push(response);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// Run the server on port 8000. Connect to http://localhost:8000/ to use it.</span></div><div class="line">server.listen(<span class="number">8000</span>);</div><div class="line"></div><div class="line">chat.html</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;h1&gt;聊天室&lt;/h1&gt;</div><div class="line">    &lt;div&gt;&lt;/div&gt;</div><div class="line">    &lt;input type=<span class="string">"text"</span>&gt;&lt;button id=<span class="string">"btn"</span>&gt;发送&lt;/button&gt;</div><div class="line"></div><div class="line">    &lt;script src=<span class="string">"http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"</span>&gt;&lt;/script&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">        $(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">var</span> nick = prompt(<span class="string">"输入你的昵称"</span>);</div><div class="line">            </div><div class="line">            <span class="keyword">var</span> source = <span class="keyword">new</span> EventSource(<span class="string">'/chat'</span>);</div><div class="line">            source.addEventListener(<span class="string">'message'</span>, msg);</div><div class="line"></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">msg</span><span class="params">(event)</span></span>&#123;</div><div class="line">                <span class="keyword">var</span> p = $(<span class="string">"&lt;p&gt;&lt;/p&gt;"</span>).text(event.data);</div><div class="line">                $(<span class="string">'div'</span>).append(p);</div><div class="line">                $(<span class="string">'input'</span>)[<span class="number">0</span>].scrollIntoView();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            $(<span class="string">'#btn'</span>).click(<span class="function"><span class="keyword">function</span><span class="params">(event)</span> </span>&#123;</div><div class="line">                <span class="comment">//var v = nick + ': ' + $('input').val();</span></div><div class="line">                <span class="keyword">var</span> v = &#123;name: nick,</div><div class="line">                         msg: $(<span class="string">'input'</span>).val()&#125;;</div><div class="line">                vjson = JSON.stringify(v);</div><div class="line">                $(<span class="string">'input'</span>).val(<span class="string">''</span>);</div><div class="line">                $.ajax(&#123;contentType: <span class="string">'text/plain;charset=UTF-8'</span>,</div><div class="line">                        data: vjson,</div><div class="line">                        url: <span class="string">'/chat'</span>,</div><div class="line">                        method: <span class="string">'POST'</span>&#125;);</div><div class="line">            &#125;);</div><div class="line">        &#125;)</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+<h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><p>WebSocket的概念不过多描述，这里有一篇阮一峰老师写的文章介绍的很清晰：<a href="http://javascript.ruanyifeng.com/htmlapi/websocket.html" target="_blank" rel="external">WebSocket解析</a></p>
+<p>了解计算机网络的分层模型应该对socket（套接字）并不陌生。我们知道，网络上的两台主机能够在知道双方IP地址的情况下交换数据，但是当数据传到主机时，数据究竟是要传给哪个程序（进程）就不得而知了。这时候传输层的作用就显现出来了。传输层提供一个参数，即端口。它指定了一个数据包到底供哪个程序（进程）使用。应用程序会被随机分配一个端口，这个端口与服务器的端口相联系。传输层的功能，即是建立端口到端口的通信。理解了这个，WebSocket也即很容易理解了。</p>
+<h3 id="一个简单的实现-原生"><a href="#一个简单的实现-原生" class="headerlink" title="一个简单的实现(原生)"></a>一个简单的实现(原生)</h3><p>即在客户端通过WebSocket()构造函数创建一个套接字，通过message事件监听服务端响应，通过send()方法向服务端发送数据。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> socket = <span class="keyword">new</span> WebSocket(<span class="string">'ws://www.example.com:8080/test'</span>);</div><div class="line">socket.onopen = <span class="function"><span class="keyword">function</span><span class="params">(e)</span></span>&#123;&#125;;</div><div class="line">socket.onclose = <span class="function"><span class="keyword">function</span><span class="params">(e)</span></span>&#123;&#125;;</div><div class="line">socket.onerror = <span class="function"><span class="keyword">function</span><span class="params">(e)</span></span>&#123;&#125;;</div><div class="line">socket.onmessage = <span class="function"><span class="keyword">function</span><span class="params">(e)</span></span>&#123; e.data &#125;;</div><div class="line"></div><div class="line"><span class="comment">//发送数据</span></div><div class="line">socket.send(<span class="string">'Hello, Server'</span>);</div></pre></td></tr></table></figure></p>
+<p>而在服务器端，我们也需要相应的写一套API来实现接收和发送数据。下面通过第三方库来实现。</p>
+<h3 id="Socket-io-nodejs-express"><a href="#Socket-io-nodejs-express" class="headerlink" title="Socket.io + nodejs(express)"></a>Socket.io + nodejs(express)</h3><p>Socket.io在阮一峰老师的那篇文章中也有相关介绍，这里是官方文档：<a href="http://socket.io/docs/" target="_blank" rel="external">Socket Doc</a></p>
+<p>它提供了一套简单的客户端和服务端API，能够让我们方便的建立socket通信。其核心就是emit()和on()，一个负责发送事件消息，一个负责接收事件消息。支持自定义事件。</p>
+<p>具体的一个Demo相信根据文档和socket.io在github上example/chat文件，自己很容易理解并修改。</p>
+<h3 id="部署到leanEngine"><a href="#部署到leanEngine" class="headerlink" title="部署到leanEngine"></a>部署到leanEngine</h3><p>这里分析一下调试或部署中碰到的问题：<br>1.客户端建立连接时，通过<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">var socket</span> = io.connect();</div></pre></td></tr></table></figure></p>
+<p>connect()默认是当前域名，如果要给connect传递参数，建议补充上端口号（适用于本地调试），默认是80（即监听端口为80时，不用补充端口号）。但是一般部署上线是分配端口的，所以建议是不传递参数。</p>
+<p>2.通过leanCloud初始化的express项目下，其中有app.js和server.js两个文件，默认是启动server.js文件。但是在server.js文件中，通过app.listen(port, callback)来创建服务并监听。<br>按照socket.io文档中的意思，我们在app.js中添加了如下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> server = <span class="built_in">require</span>(<span class="string">'http'</span>).createServer(app);</div><div class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(server);</div><div class="line">server.listen(<span class="number">80</span>);</div></pre></td></tr></table></figure></p>
+<p>由此分析，通过server.js启动app.listen()会启动两个httpserver服务，必然会造成冲突。</p>
+<p>查看express的官方文档，app.listen()方法其实是node.js中创建httpserver服务的简单写法。但是在当前情景下，我们不仅需要创建一个server，还需要socket.io模块关联该server，这样才能实现websocket功能。显然用app.listen()的简单写法不太方便满足。</p>
+<h4 id="部署要解决的两个问题"><a href="#部署要解决的两个问题" class="headerlink" title="部署要解决的两个问题"></a>部署要解决的两个问题</h4><p>1.创建一个服务（即启动app.js文件即可）<br>2.线上监听哪个端口？</p>
+<p>查看leanEngine文档：<a href="https://leancloud.cn/docs/leanengine_webhosting_guide-node.html#项目约束" target="_blank" rel="external">网站托管开发指南 · Node.js</a></p>
+<p>得到两个信息：<br>1.云引擎 Node.js 项目必须有 $PROJECT_DIR/server.js 文件，该文件为整个项目的启动文件。如果 $PROJECT_DIR/package.json 文件有自定义的启动脚本，则会使用 npm start 方式启动。这意味着可以使用 npm scripts 来定制启动过程。（我将server.js中的部分代码移到app.js中来，然后启动app.js）</p>
+<p>2.云引擎 Node.js 支持任意 Node.js 的 Web 框架，但是请保证启动你的项目之后程序监听的端口为 process.env.LEANCLOUD_APP_PORT。</p>
+<p>所以将代码修改为<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app.<span class="keyword">set</span>(<span class="string">'port'</span>, process.env.LEANCLOUD_APP_PORT || <span class="number">3000</span>);</div><div class="line"></div><div class="line">server.listen(app.<span class="keyword">get</span>(<span class="string">'port'</span>), <span class="function"><span class="keyword">function</span></span>()&#123;</div><div class="line">  console.log(<span class="string">"Express server listening on port "</span> + app.<span class="keyword">get</span>(<span class="string">'port'</span>));</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>即可部署上线成功</p>
+<p>访问 <a href="http://felbry.leanapp.cn" target="_blank" rel="external">felbry.leanapp.cn</a> ，查看我部署好的聊天室吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/mycode.jpg" alt="Felbry wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎扫码交流</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nodejs/" rel="tag">#nodejs</a>
+          
+            <a href="/tags/Server-Sent-Event/" rel="tag">#Server-Sent Event</a>
+          
+            <a href="/tags/express/" rel="tag">#express</a>
+          
+            <a href="/tags/comet/" rel="tag">#comet</a>
+          
+            <a href="/tags/WebSocket/" rel="tag">#WebSocket</a>
+          
+            <a href="/tags/leanEngine/" rel="tag">#leanEngine</a>
+          
+            <a href="/tags/部署/" rel="tag">#部署</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/07/读《Javascript权威指南（6）》/" rel="next" title="读《Javascript权威指南（6）》">
+                <i class="fa fa-chevron-left"></i> 读《Javascript权威指南（6）》
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/23/Felbry的前端资源合集（持续更新）/" rel="prev" title="Felbry的前端资源合集（持续更新）">
+                Felbry的前端资源合集（持续更新） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/"
+           data-title="基于nodejs(含express)实现SSE（Server-Sent Event）与WebSocket" data-url="http://felbry.github.io/2016/07/29/基于nodejs-含express-实现SSE（Server-Sent-Event）与WebSocket/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/me.jpg"
+               alt="Felbry" />
+          <p class="site-author-name" itemprop="name">Felbry</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/felbry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2584732117/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSE"><span class="nav-number">2.</span> <span class="nav-text">SSE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所需条件"><span class="nav-number">2.1.</span> <span class="nav-text">所需条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个示例"><span class="nav-number">2.2.</span> <span class="nav-text">一个示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">2.2.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#截图"><span class="nav-number">2.2.2.</span> <span class="nav-text">截图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">2.2.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket"><span class="nav-number">3.</span> <span class="nav-text">WebSocket</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个简单的实现-原生"><span class="nav-number">3.1.</span> <span class="nav-text">一个简单的实现(原生)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket-io-nodejs-express"><span class="nav-number">3.2.</span> <span class="nav-text">Socket.io + nodejs(express)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署到leanEngine"><span class="nav-number">3.3.</span> <span class="nav-text">部署到leanEngine</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#部署要解决的两个问题"><span class="nav-number">3.3.1.</span> <span class="nav-text">部署要解决的两个问题</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Felbry</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"felbry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

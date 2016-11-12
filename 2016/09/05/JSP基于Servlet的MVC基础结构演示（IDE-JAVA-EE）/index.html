@@ -1,0 +1,726 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JSP,mvc,demo," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="安装与配置JSP运行环境
+mvc模式的tree结构与注意事项
+一个基本注册功能的Demo
+进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP基于Servlet的MVC基础结构演示（IDE:JAVA EE）">
+<meta property="og:url" content="http://felbry.github.io/2016/09/05/JSP基于Servlet的MVC基础结构演示（IDE-JAVA-EE）/index.html">
+<meta property="og:site_name" content="Felbry's Blog">
+<meta property="og:description" content="安装与配置JSP运行环境
+mvc模式的tree结构与注意事项
+一个基本注册功能的Demo
+进阶">
+<meta property="og:updated_time" content="2016-11-12T02:14:20.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP基于Servlet的MVC基础结构演示（IDE:JAVA EE）">
+<meta name="twitter:description" content="安装与配置JSP运行环境
+mvc模式的tree结构与注意事项
+一个基本注册功能的Demo
+进阶">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6285459559070828000,
+      author: 'Felbry'
+    }
+  };
+</script>
+
+  <title> JSP基于Servlet的MVC基础结构演示（IDE:JAVA EE） | Felbry's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Felbry's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JSP基于Servlet的MVC基础结构演示（IDE:JAVA EE）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-05T22:29:01+08:00" content="2016-09-05">
+              2016-09-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/TECH-NOTE/" itemprop="url" rel="index">
+                    <span itemprop="name">TECH NOTE</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/05/JSP基于Servlet的MVC基础结构演示（IDE-JAVA-EE）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/05/JSP基于Servlet的MVC基础结构演示（IDE-JAVA-EE）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>安装与配置JSP运行环境</li>
+<li>mvc模式的tree结构与注意事项</li>
+<li>一个基本注册功能的Demo</li>
+<li>进阶</li>
+</ul>
+<a id="more"></a>
+<h2 id="安装与配置JSP运行环境"><a href="#安装与配置JSP运行环境" class="headerlink" title="安装与配置JSP运行环境"></a>安装与配置JSP运行环境</h2><h3 id="安装JDK和配置环境变量"><a href="#安装JDK和配置环境变量" class="headerlink" title="安装JDK和配置环境变量"></a>安装JDK和配置环境变量</h3><h3 id="安装Tomcat服务器"><a href="#安装Tomcat服务器" class="headerlink" title="安装Tomcat服务器"></a>安装Tomcat服务器</h3><h2 id="mvc模式的tree结构与注意事项"><a href="#mvc模式的tree结构与注意事项" class="headerlink" title="mvc模式的tree结构与注意事项"></a>mvc模式的tree结构与注意事项</h2><blockquote>
+<p>在<strong>JAVA EE</strong>中通过<code>new &gt; Dynamic Web Project</code>创建一个项目工程。</p>
+</blockquote>
+<h3 id="tree结构"><a href="#tree结构" class="headerlink" title="tree结构"></a>tree结构</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">│</div><div class="line">├─build</div><div class="line">│  └─classes</div><div class="line">│      ├─bean</div><div class="line">│      │      Users<span class="selector-class">.class</span></div><div class="line">│      └─servlet</div><div class="line">│             Register<span class="selector-class">.class</span></div><div class="line">│</div><div class="line">├─src</div><div class="line">│  ├─bean</div><div class="line">│  │      Users<span class="selector-class">.java</span></div><div class="line">│  │</div><div class="line">│  └─servlet</div><div class="line">│         Register<span class="selector-class">.java</span></div><div class="line">│</div><div class="line">└─WebContent</div><div class="line">    │  register<span class="selector-class">.jsp</span></div><div class="line">    │  success<span class="selector-class">.jsp</span></div><div class="line">    │</div><div class="line">    ├─META-INF</div><div class="line">    │      MANIFEST<span class="selector-class">.MF</span></div><div class="line">    └─WEB-INF</div><div class="line">        │  web<span class="selector-class">.xml</span></div><div class="line">        │</div><div class="line">        └─lib</div></pre></td></tr></table></figure>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p><strong>1.将<code>servlet-api.jar</code>包放进JRE中。这个包在安装完tomcat后，在其根目录的<code>lib</code>文件夹下；<br>2.注意<code>web.xml</code>文件是在<code>WEB-INF</code>文件夹下，而不是<code>lib</code>文件夹下。否则会导致请求页面时出现the request source is not avaliable错误。
+</strong></p>
+<h2 id="一个基本注册功能的Demo"><a href="#一个基本注册功能的Demo" class="headerlink" title="一个基本注册功能的Demo"></a>一个基本注册功能的Demo</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p><strong>web.xml</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>registerExample<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>servlet.Register<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>registerExample<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/register<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="jsp页面"><a href="#jsp页面" class="headerlink" title="jsp页面"></a>jsp页面</h3><p><strong>register.jsp</strong><br><figure class="highlight erb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page language=<span class="string">"java"</span> contentType=<span class="string">"text/html; charset=utf-8"</span> pageEncoding=<span class="string">"utf-8"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Register<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"register"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">		username:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span></div><div class="line">		password:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>success.jsp</strong><br><figure class="highlight erb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">%</span></span></span><span class="ruby">@ page language=<span class="string">"java"</span> contentType=<span class="string">"text/html; charset=utf-8"</span> pageEncoding=<span class="string">"utf-8"</span> </span><span class="xml"><span class="tag">%&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">jsp:useBean</span> <span class="attr">id</span>=<span class="string">"userInstance"</span> <span class="attr">type</span>=<span class="string">"bean.Users"</span> <span class="attr">scope</span>=<span class="string">"request"</span> /&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Register Successfully<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	Register Successfully.<span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">	Your username:<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"userInstance"</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">	Your password:<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">property</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"userInstance"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="servlet和bean"><a href="#servlet和bean" class="headerlink" title="servlet和bean"></a>servlet和bean</h3><p><strong>Register.java</strong><br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> servlet;</div><div class="line"><span class="keyword">import</span> bean.*;</div><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> javax.servlet.*;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.*;</div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Register</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span></span>&#123;</div><div class="line"></div><div class="line">	public void init(<span class="type">ServletConfig</span> config) <span class="keyword">throws</span> <span class="type">ServletException</span>&#123;</div><div class="line">		<span class="keyword">super</span>.init(config);</div><div class="line">	&#125;</div><div class="line">	public void doPost(<span class="type">HttpServletRequest</span> request,<span class="type">HttpServletResponse</span> response) <span class="keyword">throws</span> <span class="type">ServletException</span>,<span class="type">IOException</span>&#123;</div><div class="line">		<span class="type">String</span> name = request.getParameter(<span class="string">"username"</span>),</div><div class="line">			   pass = request.getParameter(<span class="string">"password"</span>);</div><div class="line"></div><div class="line">		<span class="type">Users</span> user = <span class="keyword">new</span> <span class="type">Users</span>();</div><div class="line">		user.setUsername(name);</div><div class="line">		user.setPassword(pass);</div><div class="line"></div><div class="line">		request.setAttribute(<span class="string">"userInstance"</span>, user);	<span class="comment">// request周期的Javabean</span></div><div class="line"></div><div class="line">		<span class="type">RequestDispatcher</span> dispatcher=request.getRequestDispatcher(<span class="string">"success.jsp"</span>);</div><div class="line">		dispatcher.forward(request,response);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>Users.java</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> bean;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Users</span> </span>&#123;</div><div class="line">	String username, password;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> username;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.username = username;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> password;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.password = password;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="通过Ajax实现数据的发送和接收"><a href="#通过Ajax实现数据的发送和接收" class="headerlink" title="通过Ajax实现数据的发送和接收"></a>通过Ajax实现数据的发送和接收</h3><blockquote>
+<p>将<code>form</code>表格中的<code>action</code>取消，改用<code>url</code></p>
+</blockquote>
+<h4 id="发送数据"><a href="#发送数据" class="headerlink" title="发送数据"></a>发送数据</h4><p><strong>register.jsp</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></div><div class="line">		用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">		密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- input标签置于form表格外边是因为如果放在里边当点击时就会刷新页面，从而取不到表格中的值 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-1.9.0.min.js"</span> <span class="attr">integrity</span>=<span class="string">"sha256-f6DVw/U4x2+HjgEqw5BZf67Kq/5vudRZuRkljnbF344="</span> <span class="attr">crossorigin</span>=<span class="string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		$(<span class="string">'input[type="submit"]'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="keyword">var</span> user = $(<span class="string">'input[name="username"]'</span>).val(),</div><div class="line">			    pass = $(<span class="string">'input[name="password"]'</span>).val();</div><div class="line">			$.post(<span class="string">'register'</span>, &#123;<span class="attr">username</span>: user, <span class="attr">password</span>: pass&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(data);  <span class="comment">// String person</span></div><div class="line">			&#125;)</div><div class="line">		&#125;)</div><div class="line">	&#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h4 id="服务端接收和返回"><a href="#服务端接收和返回" class="headerlink" title="服务端接收和返回"></a>服务端接收和返回</h4><p><strong>Register.java</strong></p>
+<blockquote>
+<p>接收还是按原来的方式接收，返回则是取消<code>RequestDispatcher</code>对象，改用<code>response</code>对象返回数据</p>
+</blockquote>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">String</span> person = username + <span class="string">', '</span> + password;</div><div class="line">response.getWriter().<span class="built_in">write</span>(person);</div><div class="line">response.getWriter().<span class="built_in">close</span>();</div></pre></td></tr></table></figure>
+<h4 id="通过JSON数据进行传输"><a href="#通过JSON数据进行传输" class="headerlink" title="通过JSON数据进行传输"></a>通过JSON数据进行传输</h4><blockquote>
+<p>上述过程中，浏览器端发送数据时发送一个JSON对象，在服务端通过<code>request.getParameter(&quot;attributeName&quot;)</code>取到对应的值。但是一个一个取值显然比较麻烦；而且返回的是String类型，当需返回多个数据时，就不是很好处理。接下来我们通过<code>json-lib</code>包，使用JSON数据传输来优化上述过程。</p>
+</blockquote>
+<p><strong>一、客户端（浏览器端）发送数据</strong></p>
+<blockquote>
+<p>主要是将数据封装成一个json对象，然后转换为一个字符串传递给服务端</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> userInfo = &#123;</div><div class="line">			<span class="attr">username</span>: user,</div><div class="line">			<span class="attr">password</span>: pass</div><div class="line">		&#125;</div><div class="line"><span class="keyword">var</span> userInfoStr = <span class="built_in">JSON</span>.stringify(userInfo);</div><div class="line">$.post(<span class="string">'register'</span>, &#123;<span class="attr">userInfomation</span>: userInfoStr&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(data);</div><div class="line">	<span class="built_in">console</span>.log(<span class="keyword">typeof</span> data);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p><strong>二、服务端接收并返回数据</strong><br><strong>1.服务端解析JSON数据传值给指定的bean对象在这里可以看到：<br>  <a href="https://felbry.github.io/2016/07/05/struts2%E4%B8%AD%E5%88%A9%E7%94%A8struts2-json-plugin%E5%AE%9E%E7%8E%B0json%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2/">struts2中利用struts2-json-plugin实现json数据交换</a></strong><br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">String userInfo</span> = request.getParameter(<span class="string">"userInfomation"</span>);</div><div class="line"><span class="attribute">JSONObject jo</span> = JSONObject.fromObject(userInfo);</div><div class="line"><span class="attribute">Users user</span> = (Users) JSONObject.toBean(jo, Users.class);</div></pre></td></tr></table></figure></p>
+<p><strong>2.服务器返回JSON数据</strong></p>
+<blockquote>
+<p>创建一个JSONObject对象，通过<code>put()</code>方法添加键值对，指定返回头中的MIME类型为<code>application/json</code>，然后返回给客户端。</p>
+</blockquote>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">JSONObject </span><span class="keyword">json </span>= new <span class="keyword">JSONObject();</span></div><div class="line"><span class="keyword">json.put("username", </span>user.getUsername())<span class="comment">;</span></div><div class="line"><span class="keyword">json.put("password", </span>user.getPassword())<span class="comment">;</span></div><div class="line"></div><div class="line">response.setContentType(<span class="string">"application/json;charset=utf-8"</span>)<span class="comment">;</span></div><div class="line">response.getWriter().write(<span class="keyword">json.toString());</span></div><div class="line">response.getWriter().<span class="keyword">close();</span></div></pre></td></tr></table></figure>
+<p><strong>注：<code>write()</code>方法不接受JSONObject对象参数，故需转换为字符串。由于我们设置了MIME类型，所以字符串会自动转换为JSON格式，也可以通过在浏览器端用<code>JSON.parse()</code>方法解析字符串。</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/mycode.jpg" alt="Felbry wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎扫码交流</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JSP/" rel="tag">#JSP</a>
+          
+            <a href="/tags/mvc/" rel="tag">#mvc</a>
+          
+            <a href="/tags/demo/" rel="tag">#demo</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/23/Felbry的前端资源合集（持续更新）/" rel="next" title="Felbry的前端资源合集（持续更新）">
+                <i class="fa fa-chevron-left"></i> Felbry的前端资源合集（持续更新）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/12/一个url引发的“血案”/" rel="prev" title="一个url引发的“血案”">
+                一个url引发的“血案” <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/05/JSP基于Servlet的MVC基础结构演示（IDE-JAVA-EE）/"
+           data-title="JSP基于Servlet的MVC基础结构演示（IDE:JAVA EE）" data-url="http://felbry.github.io/2016/09/05/JSP基于Servlet的MVC基础结构演示（IDE-JAVA-EE）/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/me.jpg"
+               alt="Felbry" />
+          <p class="site-author-name" itemprop="name">Felbry</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/felbry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2584732117/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装与配置JSP运行环境"><span class="nav-number">1.</span> <span class="nav-text">安装与配置JSP运行环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装JDK和配置环境变量"><span class="nav-number">1.1.</span> <span class="nav-text">安装JDK和配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Tomcat服务器"><span class="nav-number">1.2.</span> <span class="nav-text">安装Tomcat服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mvc模式的tree结构与注意事项"><span class="nav-number">2.</span> <span class="nav-text">mvc模式的tree结构与注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tree结构"><span class="nav-number">2.1.</span> <span class="nav-text">tree结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">2.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个基本注册功能的Demo"><span class="nav-number">3.</span> <span class="nav-text">一个基本注册功能的Demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">3.1.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp页面"><span class="nav-number">3.2.</span> <span class="nav-text">jsp页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet和bean"><span class="nav-number">3.3.</span> <span class="nav-text">servlet和bean</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">4.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过Ajax实现数据的发送和接收"><span class="nav-number">4.1.</span> <span class="nav-text">通过Ajax实现数据的发送和接收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#发送数据"><span class="nav-number">4.1.1.</span> <span class="nav-text">发送数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务端接收和返回"><span class="nav-number">4.1.2.</span> <span class="nav-text">服务端接收和返回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过JSON数据进行传输"><span class="nav-number">4.1.3.</span> <span class="nav-text">通过JSON数据进行传输</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Felbry</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"felbry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
