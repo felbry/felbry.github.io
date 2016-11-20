@@ -89,7 +89,8 @@ WebAssembly">
 WebAssembly">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/osi.jpg">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/tcp-ip.jpg">
-<meta property="og:updated_time" content="2016-11-20T11:28:01.545Z">
+<meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/解释编译过程.png">
+<meta property="og:updated_time" content="2016-11-20T11:59:20.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个url引发的“血案”">
 <meta name="twitter:description" content="请求一个url到浏览器显示页面都发生了什么
@@ -361,10 +362,10 @@ WebAssembly">
 </li>
 <li><p>补充（JIT技术）<br>虽然虚拟机带来了一定的便利，但是要知道，人们对性能的追求是永无止境的。虽然虚拟机可以实现对字节码的解释执行，但是一段字节码多次执行都要经由虚拟机来解释就显得有些多余了。这也正是JIT（即时编译）技术存在的意义。<br>我们在虚拟机中采用这样一种编译技术：每次代码（字节码）执行都将其编译为机器码并缓存起来，当下次再需要执行这段代码（字节码）时，我们就可以直接执行其编译好的机器码，这样就大大提高了虚拟机的运行效率。</p>
 </li>
-<li><p>总结（图示）<br>通过概述和补充，我们大致探讨了解释型语言的运行机制。下边以一张图来表示现在大多数浏览器中的javascript引擎（虚拟机）的工作过程。从左至右也可以看作是引擎的一步一步的进化。当然，不同的浏览器内置的js引擎执行代码步骤也会有不同，像Google的V8引擎，就是直接将代码一步编译（JIT）为机器码，而FireFox的SpiderMonkey似乎是进行了三次编译。下图只是一个总体上的表达。</p>
+<li><p>总结（图示）<br>通过概述和补充，我们大致探讨了解释型语言的运行机制。下边以一张图来表示现在大多数浏览器中的javascript引擎/虚拟机的工作过程，同时也是以javascript语言为代表的解释性语言的几种执行过程。从左至右也可以看作是引擎的一步一步的进化。当然，不同的浏览器内置的js引擎执行代码步骤也会有不同，像Google的V8引擎，就是直接将代码一步编译（JIT）为机器码，而FireFox的SpiderMonkey似乎是进行了三次编译。下图只是一个总体上的表达。</p>
 </li>
 </ul>
-
+<img src="/2016/11/12/一个url引发的“血案”/解释编译过程.png" alt="解释编译过程.png" title="">
 <p><strong>解析的实质</strong><br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo 原理概述</span></div></pre></td></tr></table></figure></p>
 <h4 id="渲染引擎"><a href="#渲染引擎" class="headerlink" title="渲染引擎"></a>渲染引擎</h4><p>1.主流程<br>2.html解析器<br>3.css解析器<br>4.布局<br>5.绘制</p>
 <h4 id="Javascript引擎"><a href="#Javascript引擎" class="headerlink" title="Javascript引擎"></a>Javascript引擎</h4><p>1.事件循环详解</p>
