@@ -61,7 +61,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="url,浏览器解析机制,javascript引擎,WebAssembly," />
 
 
 
@@ -77,13 +77,25 @@
 
 
 
+<meta name="description" content="请求一个url到浏览器显示页面都发生了什么
+浏览器解析（两个主要引擎）
+WebAssembly">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个url引发的“血案”">
 <meta property="og:url" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/index.html">
 <meta property="og:site_name" content="Felbry's Blog">
-<meta property="og:updated_time" content="2016-11-12T02:45:43.750Z">
+<meta property="og:description" content="请求一个url到浏览器显示页面都发生了什么
+浏览器解析（两个主要引擎）
+WebAssembly">
+<meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/osi.jpg">
+<meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/tcp-ip.jpg">
+<meta property="og:updated_time" content="2016-11-20T11:28:01.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个url引发的“血案”">
+<meta name="twitter:description" content="请求一个url到浏览器显示页面都发生了什么
+浏览器解析（两个主要引擎）
+WebAssembly">
+<meta name="twitter:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/osi.jpg">
 
 
 
@@ -253,11 +265,30 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-12T10:45:43+08:00" content="2016-11-12">
+            <time itemprop="dateCreated" datetime="2016-11-12T19:41:43+08:00" content="2016-11-12">
               2016-11-12
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/TECH-NOTE/" itemprop="url" rel="index">
+                    <span itemprop="name">TECH NOTE</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -288,7 +319,57 @@
       
 
       
-        
+        <ul>
+<li>请求一个url到浏览器显示页面都发生了什么</li>
+<li>浏览器解析（两个主要引擎）</li>
+<li>WebAssembly</li>
+</ul>
+<a id="more"></a>
+<h2 id="请求一个url到浏览器显示页面都发生了什么"><a href="#请求一个url到浏览器显示页面都发生了什么" class="headerlink" title="请求一个url到浏览器显示页面都发生了什么"></a>请求一个url到浏览器显示页面都发生了什么</h2><blockquote>
+<p>这个问题在我看来已经是个老生常谈的问题了，但大多数情况下大家谈及这个问题，总是偏向于去讲网络层的一些东西，而忽略了浏览器这块的东西。本文会对整体的流程做一个简单的描述，能力所及之处会多加些补充，稍后会着重描述一下浏览器的引擎，旨在加深理解浏览器的解析机制。</p>
+</blockquote>
+<h3 id="OSI模型与TCP-IP模型"><a href="#OSI模型与TCP-IP模型" class="headerlink" title="OSI模型与TCP/IP模型"></a>OSI模型与TCP/IP模型</h3><p><strong>学过计算机网络的应该对这两个名词并不陌生，这两个模型定义了“计算机如何通过网络传输数据”的规范。当我们请求一个url（统一资源定位符）时，实际上就是从本地向远程服务器主机请求数据。所以理解了模型，其实也就对这个过程有了一个简单清晰的了解。</strong></p>
+<h4 id="OSI"><a href="#OSI" class="headerlink" title="OSI"></a>OSI</h4><p>OSI（开放式系统互联参考模型），定义了网络互联的七层框架，下面简单用一张图来表示。<br><img src="/2016/11/12/一个url引发的“血案”/osi.jpg" alt="osi.jpg" title=""></p>
+<h4 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h4><p>OSI的分层比较详细，TCP/IP则可以看成是简化版的OSI模型，共有四层。而现在的网络模型大多也是基于TCP/IP构建的。</p>
+<blockquote>
+<p>TCP/IP提供点对点的链接机制，将数据应该如何封装、定址、传输、路由以及在目的地如何接收，都加以标准化。它将软件通信过程抽象化为四个抽象层，采取协议堆栈的方式，分别实现出不同通信协议。</p>
+</blockquote>
+<img src="/2016/11/12/一个url引发的“血案”/tcp-ip.jpg" alt="tcp-ip.jpg" title="">
+<p>如上图所示，从下至上的四层，分别为链接层（Link Layer）、网络层（Internet Layer）、传输层（Transport Layer）、应用层（Application Layer）。</p>
+<p>下面我将上图的传输过程加以阐释（自我理解，如有错误还望批评纠正），来帮助理解信息是如何传递的。在此之前，我们应该记住一个关键点：<strong>互联网架构的核心就是实现文本对话</strong>，一切形式约定都是为了成全这个文本对话。</p>
+<p>当一个客户端想要对另一个客户端发出一条信息时，它首先要具备两个必要条件：知道对方的位置（ip地址/mac地址）和一条专用的通道，如TCP连接（因为一台主机上会有许许多多的应用程序，当一条消息发送到某台主机上，我们需要一个特定的端到端接口将消息准确的发送给指定程序）。所以在发送之前我们需要通过网络层来确定对方位置然后通过传输层来建立一个端到端的接口，链接层负责建立电路连接。一旦连接建立，我们就可以在应用层实现两个应用之间的通讯。但是我们不能想怎么发就怎么发，不然发送方和接收方理解不了对方的含义，就乱套了。所以这里有一系列的应用层协议，规定了发送和接收的格式。典型的如http协议，ftp协议（可以自行查找了解）。由此，就实现了两台主机的网络通信。</p>
+<p>这里推荐一篇阮一峰老师的文章：<a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="external">互联网协议入门（一）</a></p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>有了上边的基础之后，我们以一个实例来浅析主要经历了哪些过程。（每个过程都可以拆分出来很多知识点，目前只概述，往后会根据学习和需要详细补充）</p>
+<blockquote>
+<p><a href="http://felbry.leanapp.cn/resume.html" target="_blank" rel="external">http://felbry.leanapp.cn/resume.html</a></p>
+</blockquote>
+<p><strong>以上边url为例，当我们发送请求时，发生了什么？</strong></p>
+<h4 id="1-DNS（Domain-Name-System）解析"><a href="#1-DNS（Domain-Name-System）解析" class="headerlink" title="1.DNS（Domain Name System）解析"></a>1.DNS（Domain Name System）解析</h4><p>首先我们需要知道对方的位置信息，所以通过dns解析得到其ip地址，即将felbry.leanapp.cn解析成ip地址。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo 详细步骤</span></div></pre></td></tr></table></figure>
+<h4 id="2-建立TCP连接"><a href="#2-建立TCP连接" class="headerlink" title="2.建立TCP连接"></a>2.建立TCP连接</h4><p>我们假设得到ip地址之后直接跳到传输层的连接建立上（中间省略了网络层和链接层的相关过程），从而得到一条端到端的tcp连接。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo 三次握手</span></div></pre></td></tr></table></figure>
+<h4 id="3-发送http请求"><a href="#3-发送http请求" class="headerlink" title="3.发送http请求"></a>3.发送http请求</h4><p>建立了连接之后，我们就可以实现通讯。由于url中的scheme为http，自然而然我们以http报文格式请求服务端的<code>resume.html</code>资源。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo http报文相关知识</span></div></pre></td></tr></table></figure>
+<h4 id="4-服务端处理请求"><a href="#4-服务端处理请求" class="headerlink" title="4.服务端处理请求"></a>4.服务端处理请求</h4><p>服务端接收http请求，处理请求，并返回响应数据。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo</span></div><div class="line"><span class="number">1.</span>负载均衡</div><div class="line"><span class="number">2.</span>反向代理</div></pre></td></tr></table></figure>
+<h4 id="5-接收http响应"><a href="#5-接收http响应" class="headerlink" title="5.接收http响应"></a>5.接收http响应</h4><p>客户端（浏览器）接收http响应报文，解析并得到请求的数据。</p>
+<h4 id="6-浏览器解析数据并呈现"><a href="#6-浏览器解析数据并呈现" class="headerlink" title="6.浏览器解析数据并呈现"></a>6.浏览器解析数据并呈现</h4><p>这里的数据指的是<code>resume.html</code>，下节详细来解释。</p>
+<h3 id="浏览器解析（两个主要引擎）"><a href="#浏览器解析（两个主要引擎）" class="headerlink" title="浏览器解析（两个主要引擎）"></a>浏览器解析（两个主要引擎）</h3><p>在开始浏览器解析之前，先来了解两个重要的知识点：<strong>代码是如何运行的</strong> 以及 <strong>解析的实质</strong></p>
+<p><strong>代码是如何运行的</strong><br>很多时候我们运行一段代码的本质是通过代码告诉机器（硬件）怎样做/做什么。我们知道，计算机刚问世时只能在其上边运行二进制语言，再后来出现了如C，C++这些比较接近底层的语言，他们通过简单的编译就可以生成机器可以识别的机器码（指令集）。随着社会发展，项目需要，越来越多的高级语言加入进来，通过其执行步骤和方式大致可以分为解释型语言和编译型语言两种（当然还有混合型）。编译型语言如C这种很好理解，那么解释型语言如何执行呢？</p>
+<ul>
+<li><p>概述（虚拟机的意义）<br>个人认为了解解释型语言运行有一个前提是必须对虚拟机有一定的理解。关于虚拟机的概念可以自行查找，这里我只简单谈下虚拟机存在的意义。<br>大家都知道，生产处理器芯片的公司有很多家，比较流行的处理器体系按粗略的分法都有x86、ARM、MIPS、PowerPC等等很多种，再细分下去，每种芯片的指令集还存在有32位，64位的扩展。对于编译型语言，虽然具有一次编译可多次运行的优点，保证了效率。但是在跨平台上却是个短板。试想一下，我把源代码编译成了针对A型CPU可以执行的指令集，现在要在B型CPU上运行，就要重新编译，一次两次还好，如果是十次二十次呢？每个平台之后又出现了新的扩展指令集呢？未来出现的新平台呢？没完没了。<br>于是虚拟机的概念就应运而生了。我们设想一个不存在的体系结构，包含一些栈或寄存器，以及对应的指令集，然后编译生成针对这个假想机器的生成代码，又被称作“字节码”。字节码交由这个虚拟机来处理，从而针对不同平台解释生成不同的指令集来执行。这样，我们就实现了一次编译多处运行的优点。</p>
+</li>
+<li><p>补充（JIT技术）<br>虽然虚拟机带来了一定的便利，但是要知道，人们对性能的追求是永无止境的。虽然虚拟机可以实现对字节码的解释执行，但是一段字节码多次执行都要经由虚拟机来解释就显得有些多余了。这也正是JIT（即时编译）技术存在的意义。<br>我们在虚拟机中采用这样一种编译技术：每次代码（字节码）执行都将其编译为机器码并缓存起来，当下次再需要执行这段代码（字节码）时，我们就可以直接执行其编译好的机器码，这样就大大提高了虚拟机的运行效率。</p>
+</li>
+<li><p>总结（图示）<br>通过概述和补充，我们大致探讨了解释型语言的运行机制。下边以一张图来表示现在大多数浏览器中的javascript引擎（虚拟机）的工作过程。从左至右也可以看作是引擎的一步一步的进化。当然，不同的浏览器内置的js引擎执行代码步骤也会有不同，像Google的V8引擎，就是直接将代码一步编译（JIT）为机器码，而FireFox的SpiderMonkey似乎是进行了三次编译。下图只是一个总体上的表达。</p>
+</li>
+</ul>
+
+<p><strong>解析的实质</strong><br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo 原理概述</span></div></pre></td></tr></table></figure></p>
+<h4 id="渲染引擎"><a href="#渲染引擎" class="headerlink" title="渲染引擎"></a>渲染引擎</h4><p>1.主流程<br>2.html解析器<br>3.css解析器<br>4.布局<br>5.绘制</p>
+<h4 id="Javascript引擎"><a href="#Javascript引擎" class="headerlink" title="Javascript引擎"></a>Javascript引擎</h4><p>1.事件循环详解</p>
+<h3 id="WebAssembly"><a href="#WebAssembly" class="headerlink" title="WebAssembly"></a>WebAssembly</h3><p>1.是什么<br>2.为了什么（通过对前边js引擎性能的分析作铺垫）<br>3.一个完整的Demo实现（参考官网Demo）</p>
+
       
     </div>
 
@@ -311,6 +392,18 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/url/" rel="tag">#url</a>
+          
+            <a href="/tags/浏览器解析机制/" rel="tag">#浏览器解析机制</a>
+          
+            <a href="/tags/javascript引擎/" rel="tag">#javascript引擎</a>
+          
+            <a href="/tags/WebAssembly/" rel="tag">#WebAssembly</a>
+          
+        </div>
       
 
       
@@ -435,7 +528,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -484,7 +577,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求一个url到浏览器显示页面都发生了什么"><span class="nav-number">1.</span> <span class="nav-text">请求一个url到浏览器显示页面都发生了什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI模型与TCP-IP模型"><span class="nav-number">1.1.</span> <span class="nav-text">OSI模型与TCP/IP模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OSI"><span class="nav-number">1.1.1.</span> <span class="nav-text">OSI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-IP"><span class="nav-number">1.1.2.</span> <span class="nav-text">TCP/IP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-DNS（Domain-Name-System）解析"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.DNS（Domain Name System）解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-建立TCP连接"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.建立TCP连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-发送http请求"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.发送http请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-服务端处理请求"><span class="nav-number">1.2.4.</span> <span class="nav-text">4.服务端处理请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-接收http响应"><span class="nav-number">1.2.5.</span> <span class="nav-text">5.接收http响应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-浏览器解析数据并呈现"><span class="nav-number">1.2.6.</span> <span class="nav-text">6.浏览器解析数据并呈现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器解析（两个主要引擎）"><span class="nav-number">1.3.</span> <span class="nav-text">浏览器解析（两个主要引擎）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#渲染引擎"><span class="nav-number">1.3.1.</span> <span class="nav-text">渲染引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Javascript引擎"><span class="nav-number">1.3.2.</span> <span class="nav-text">Javascript引擎</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebAssembly"><span class="nav-number">1.4.</span> <span class="nav-text">WebAssembly</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
