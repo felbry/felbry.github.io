@@ -97,7 +97,7 @@ WebAssembly">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/osi.jpg">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/tcp-ip.jpg">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/解释编译过程.png">
-<meta property="og:updated_time" content="2016-11-20T12:13:23.561Z">
+<meta property="og:updated_time" content="2016-11-22T13:57:06.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个url引发的“血案”">
 <meta name="twitter:description" content="请求一个url到浏览器显示页面都发生了什么
@@ -344,7 +344,7 @@ WebAssembly">
 </blockquote>
 <img src="/2016/11/12/一个url引发的“血案”/tcp-ip.jpg" alt="tcp-ip.jpg" title="">
 <p>如上图所示，从下至上的四层，分别为链接层（Link Layer）、网络层（Internet Layer）、传输层（Transport Layer）、应用层（Application Layer）。</p>
-<p>下面我将上图的传输过程加以阐释（自我理解，如有错误还望批评纠正），来帮助理解信息是如何传递的。在此之前，我们应该记住一个关键点：<strong>互联网架构的核心就是实现文本对话</strong>，一切形式约定都是为了成全这个文本对话。</p>
+<p>下面我将上图的传输过程加以阐释（自我理解，如有错误还望批评纠正），来帮助理解信息是如何传递的。在此之前，我们应该清楚一个关键点：<strong>互联网架构的核心就是实现文本对话</strong>，一切形式约定都是为了成全这个文本对话。</p>
 <p>当一个客户端想要对另一个客户端发出一条信息时，它首先要具备两个必要条件：知道对方的位置（ip地址/mac地址）和一条专用的通道，如TCP连接（因为一台主机上会有许许多多的应用程序，当一条消息发送到某台主机上，我们需要一个特定的端到端接口将消息准确的发送给指定程序）。所以在发送之前我们需要通过网络层来确定对方位置然后通过传输层来建立一个端到端的接口，链接层负责建立电路连接。一旦连接建立，我们就可以在应用层实现两个应用之间的通讯。但是我们不能想怎么发就怎么发，不然发送方和接收方理解不了对方的含义，就乱套了。所以这里有一系列的应用层协议，规定了发送和接收的格式。典型的如http协议，ftp协议（可以自行查找了解）。由此，就实现了两台主机的网络通信。</p>
 <p>这里推荐一篇阮一峰老师的文章：<a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html" target="_blank" rel="external">互联网协议入门（一）</a></p>
 <h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>有了上边的基础之后，我们以一个实例来浅析主要经历了哪些过程。（每个过程都可以拆分出来很多知识点，目前只概述，往后会根据学习和需要详细补充）</p>
@@ -365,15 +365,18 @@ WebAssembly">
 <h2 id="浏览器解析（两个主要引擎）"><a href="#浏览器解析（两个主要引擎）" class="headerlink" title="浏览器解析（两个主要引擎）"></a>浏览器解析（两个主要引擎）</h2><p>在开始浏览器解析之前，先来了解两个重要的知识点：<strong>代码是如何运行的</strong> 以及 <strong>解析的实质</strong></p>
 <p><strong>代码是如何运行的</strong><br>很多时候我们运行一段代码的本质是通过代码告诉机器（硬件）怎样做/做什么。我们知道，计算机刚问世时只能在其上边运行二进制语言，再后来出现了如C，C++这些比较接近底层的语言，他们通过简单的编译就可以生成机器可以识别的机器码（指令集）。随着社会发展，项目需要，越来越多的高级语言加入进来，通过其执行步骤和方式大致可以分为解释型语言和编译型语言两种（当然还有混合型）。编译型语言如C这种很好理解，那么解释型语言如何执行呢？</p>
 <ul>
-<li><p>概述（虚拟机的意义）<br>个人认为了解解释型语言运行有一个前提是必须对虚拟机有一定的理解。关于虚拟机的概念可以自行查找，这里我只简单谈下虚拟机存在的意义。<br>大家都知道，生产处理器芯片的公司有很多家，比较流行的处理器体系按粗略的分法都有x86、ARM、MIPS、PowerPC等等很多种，再细分下去，每种芯片的指令集还存在有32位，64位的扩展。对于编译型语言，虽然具有一次编译可多次运行的优点，保证了效率。但是在跨平台上却是个短板。试想一下，我把源代码编译成了针对A型CPU可以执行的指令集，现在要在B型CPU上运行，就要重新编译，一次两次还好，如果是十次二十次呢？每个平台之后又出现了新的扩展指令集呢？未来出现的新平台呢？没完没了。<br>于是虚拟机的概念就应运而生了。我们设想一个不存在的体系结构，包含一些栈或寄存器，以及对应的指令集，然后编译生成针对这个假想机器的生成代码，又被称作“字节码”。字节码交由这个虚拟机来处理，从而针对不同平台解释生成不同的指令集来执行。这样，我们就实现了一次编译多处运行的优点。</p>
+<li><p>概述（虚拟机的意义）<br>个人认为了解解释型语言运行有一个前提是必须对虚拟机有一定的理解。关于虚拟机的概念可以自行查找，这里我只简单谈下我们为什么需要虚拟机。<br>大家都知道，生产处理器芯片的公司有很多家，比较流行的处理器体系按粗略的分法都有x86、ARM、MIPS、PowerPC等等很多种，再细分下去，每种芯片的指令集还存在有32位，64位的扩展。对于编译型语言，虽然具有一次编译可多次运行的优点，保证了效率。但是在跨平台上却是个短板。试想一下，我把源代码编译成了针对A型CPU可以执行的指令集，现在要在B型CPU上运行，就要重新编译，一次两次还好，如果是十次二十次呢？每个平台之后又出现了新的扩展指令集呢？未来出现的新平台呢？没完没了。<br>于是虚拟机的概念就应运而生了。我们设想一个不存在的体系结构，包含一些栈或寄存器，以及对应的指令集，然后编译生成针对这个假想机器的生成代码，又被称作“字节码”。字节码交由这个虚拟机来处理，从而针对不同平台解释生成不同的指令集来执行。这样，我们就实现了一次编译多处运行的优点。</p>
 </li>
-<li><p>补充（JIT技术）<br>虽然虚拟机带来了一定的便利，但是要知道，人们对性能的追求是永无止境的。虽然虚拟机可以实现对字节码的解释执行，但是一段字节码多次执行都要经由虚拟机来解释就显得有些多余了。这也正是JIT（即时编译）技术存在的意义。<br>我们在虚拟机中采用这样一种编译技术：每次代码（字节码）执行都将其编译为机器码并缓存起来，当下次再需要执行这段代码（字节码）时，我们就可以直接执行其编译好的机器码，这样就大大提高了虚拟机的运行效率。</p>
+<li><p>补充（JIT技术）<br>虽然虚拟机带来了一定的便利，但是要知道，人们对性能的追求是永无止境的。虚拟机可以实现对字节码的解释执行，但是一段字节码多次执行都要经由虚拟机来解释就显得有些多余了。这也正是JIT（即时编译）技术存在的意义。<br>我们在虚拟机中采用这样一种编译技术：每次代码（字节码）执行都将其编译为机器码并缓存起来，当下次再需要执行这段代码（字节码）时，我们就可以直接执行其编译好的机器码，这样就大大提高了虚拟机的运行效率。</p>
 </li>
-<li><p>总结（图示）<br>通过概述和补充，我们大致探讨了解释型语言的运行机制。下边以一张图来表示现在大多数浏览器中的javascript引擎/虚拟机的工作过程，同时也是以javascript语言为代表的解释性语言的几种执行过程。从左至右也可以看作是引擎的一步一步的进化。当然，不同的浏览器内置的js引擎执行代码步骤也会有不同，像Google的V8引擎，就是直接将代码一步编译（JIT）为机器码，而FireFox的SpiderMonkey似乎是进行了三次编译。下图只是一个总体上的表达。</p>
+<li><p>总结（图示）<br>通过概述和补充，我们大致探讨了解释型语言的运行机制。下边以一张图来表示现在大多数浏览器中的javascript引擎/虚拟机的工作过程，同时也是以javascript语言为代表的解释性语言的几个执行过程。从左至右也可以看作是引擎的一步一步的进化。当然，不同的浏览器内置的js引擎执行代码步骤也会有不同，像Google的V8引擎，就是直接将代码一步编译（JIT）为机器码，而FireFox的SpiderMonkey似乎是进行了三次编译。下图只是一个总体上的表达。</p>
 </li>
 </ul>
 <img src="/2016/11/12/一个url引发的“血案”/解释编译过程.png" alt="解释编译过程.png" title="">
-<p><strong>解析的实质</strong><br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//todo 原理概述</span></div></pre></td></tr></table></figure></p>
+<p><strong>解析的实质</strong><br>解析的过程很像是日常中的翻译。想象一下我们要将一篇英语文章翻译为中文的需要哪些能力呢？首先要明白各个单词的意思，再者要明白其语法规则，这样才能将这些单词组合起来从而读懂它。那么解析也是如此。要完成对源码的解析，我们就需要一个词法分析器（Lexical）和一个语法分析器（Syntax）。具备了以上两个条件，我们就能够将代码翻译为一棵抽象语法树（AST），从而被编译器翻译成另一种格式的代码（通常是针对机器/虚拟机）而言。（可参见上图中的“一次编译”过程）</p>
+<p>补充一点：词汇和语法的定义<br>1.词汇通常用正则表达式来表示<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//整数及运算符的表示</div><div class="line">INTEGER :0|[<span class="string">1-9</span>][<span class="symbol">0-9</span>]*</div><div class="line">PLUS : +</div><div class="line">MINUS : -</div></pre></td></tr></table></figure></p>
+<p>2.语法通常使用一种称为BNF的格式来定义，如下<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">expression :=  term  operation  term</div><div class="line">operation :=  PLUS | MINUS</div><div class="line">term := INTEGER | expression</div></pre></td></tr></table></figure></p>
+<p>注：这种BNF格式可以用来表示大多数“与上下文无关的语法”。何为“与上下文无关的语法”？简单的一句话来说就是：所有可以解析的格式都必须对应确定的语法（由词汇和语法规则构成）。我们接触的大多数语言都算是“与上下文无关的语法”。为什么要强调这个呢？因为接下来的html语言就比较特殊，它需要用其他格式来表示。</p>
 <h3 id="渲染引擎"><a href="#渲染引擎" class="headerlink" title="渲染引擎"></a>渲染引擎</h3><p>1.主流程<br>2.html解析器<br>3.css解析器<br>4.布局<br>5.绘制</p>
 <h3 id="Javascript引擎"><a href="#Javascript引擎" class="headerlink" title="Javascript引擎"></a>Javascript引擎</h3><p>1.事件循环详解</p>
 <h2 id="WebAssembly"><a href="#WebAssembly" class="headerlink" title="WebAssembly"></a>WebAssembly</h2><p>1.是什么<br>2.为了什么（通过对前边js引擎性能的分析作铺垫）<br>3.一个完整的Demo实现（参考官网Demo）</p>
