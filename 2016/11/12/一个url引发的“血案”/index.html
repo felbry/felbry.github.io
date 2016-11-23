@@ -97,7 +97,7 @@ WebAssembly">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/osi.jpg">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/tcp-ip.jpg">
 <meta property="og:image" content="http://felbry.github.io/2016/11/12/一个url引发的“血案”/解释编译过程.png">
-<meta property="og:updated_time" content="2016-11-22T13:57:06.650Z">
+<meta property="og:updated_time" content="2016-11-23T01:12:41.383Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个url引发的“血案”">
 <meta name="twitter:description" content="请求一个url到浏览器显示页面都发生了什么
@@ -373,10 +373,10 @@ WebAssembly">
 </li>
 </ul>
 <img src="/2016/11/12/一个url引发的“血案”/解释编译过程.png" alt="解释编译过程.png" title="">
-<p><strong>解析的实质</strong><br>解析的过程很像是日常中的翻译。想象一下我们要将一篇英语文章翻译为中文的需要哪些能力呢？首先要明白各个单词的意思，再者要明白其语法规则，这样才能将这些单词组合起来从而读懂它。那么解析也是如此。要完成对源码的解析，我们就需要一个词法分析器（Lexical）和一个语法分析器（Syntax）。具备了以上两个条件，我们就能够将代码翻译为一棵抽象语法树（AST），从而被编译器翻译成另一种格式的代码（通常是针对机器/虚拟机）而言。（可参见上图中的“一次编译”过程）</p>
+<p><strong>解析的实质</strong><br>解析的过程很像是日常中的翻译。想象一下我们要将一篇英语文章翻译为中文时需要哪些能力呢？首先要明白各个单词的意思，再者要明白其语法规则，这样才能将这些单词组合起来从而读懂它。那么解析也是如此。要完成对源码的解析，我们就需要一个词法分析器（Lexical）和一个语法分析器（Syntax）。具备了以上两个条件，我们就能够将代码翻译为一棵抽象语法树（AST），从而被编译器翻译成另一种格式的代码（通常是针对机器/虚拟机而言）。可参见上图中的“一次编译”过程。由此我们也可以知道：在将一种代码翻译为另一种代码的整个过程中，生成抽象语法树只能算是个中间过程，它不表示最终形态（还需要编译器进一步翻译转换）。</p>
 <p>补充一点：词汇和语法的定义<br>1.词汇通常用正则表达式来表示<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//整数及运算符的表示</div><div class="line">INTEGER :0|[<span class="string">1-9</span>][<span class="symbol">0-9</span>]*</div><div class="line">PLUS : +</div><div class="line">MINUS : -</div></pre></td></tr></table></figure></p>
-<p>2.语法通常使用一种称为BNF的格式来定义，如下<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">expression :=  term  operation  term</div><div class="line">operation :=  PLUS | MINUS</div><div class="line">term := INTEGER | expression</div></pre></td></tr></table></figure></p>
-<p>注：这种BNF格式可以用来表示大多数“与上下文无关的语法”。何为“与上下文无关的语法”？简单的一句话来说就是：所有可以解析的格式都必须对应确定的语法（由词汇和语法规则构成）。我们接触的大多数语言都算是“与上下文无关的语法”。为什么要强调这个呢？因为接下来的html语言就比较特殊，它需要用其他格式来表示。</p>
+<p>2.语法通常使用一种称为BNF的格式来定义，如下所示<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">expression :=  term  operation  term</div><div class="line">operation :=  PLUS | MINUS</div><div class="line">term := INTEGER | expression</div></pre></td></tr></table></figure></p>
+<p>注：这种BNF格式可以用来表示大多数“与上下文无关的语法”。何为“与上下文无关的语法”？简单的一句话来形容就是：所有可以解析的格式都必须对应确定的语法（由词汇和语法规则构成）。我们接触的大多数语言都算是“与上下文无关的语法”。为什么要强调这个呢？因为接下来的html语言就比较特殊，它需要用其他格式（DTD）来表示。</p>
 <h3 id="渲染引擎"><a href="#渲染引擎" class="headerlink" title="渲染引擎"></a>渲染引擎</h3><p>1.主流程<br>2.html解析器<br>3.css解析器<br>4.布局<br>5.绘制</p>
 <h3 id="Javascript引擎"><a href="#Javascript引擎" class="headerlink" title="Javascript引擎"></a>Javascript引擎</h3><p>1.事件循环详解</p>
 <h2 id="WebAssembly"><a href="#WebAssembly" class="headerlink" title="WebAssembly"></a>WebAssembly</h2><p>1.是什么<br>2.为了什么（通过对前边js引擎性能的分析作铺垫）<br>3.一个完整的Demo实现（参考官网Demo）</p>
