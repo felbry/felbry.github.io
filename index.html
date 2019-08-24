@@ -16,7 +16,7 @@
     bottom: 0;
     height: 50vh;
     width: 100%;
-    background: green;
+    background: yellow;
     z-index: 100;
     overflow: hidden;
   }
@@ -33,5 +33,10 @@
   <div class="keyboard">
     <div class="keyboard-inner"></div>
   </div>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.keyboard').setAttribute('style', 'overflow: visible')
+    }, 2000);
+  </script>
 </body>
 </html>
